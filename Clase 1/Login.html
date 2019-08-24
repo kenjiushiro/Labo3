@@ -3,26 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript">
+        var nombre;
+        var edad;
+        nombre = "Penji";
+
+        edad = 25;
+
+        function Mostrar()
+        {
+            var user = document.getElementById("txtUsername").value;
+            var pw = document.getElementById("txtPassword").value;
+            if(user=="Penji" && pw == "qwerty")
+            {
+                alert("Login successful");
+            }
+            else
+            {
+                alert("Try again");
+            }
+
+        }
+
+        function Sumar(num1,num2)
+        {
+            console.log(num1+num2);
+        }
+
+        Sumar(1,2);
+
+    </script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body>
-    <form>
+    <form id="form1">
         <fieldset >
-            <legend>Login:</legend>
+            <legend id="HeaderLogin")>Login:</legend>
 
             Usuario:
             <br>
-            <input type="text">
+            <input type="text" id="txtUsername">
             <br>
             Contraseña:
             <br>
-            <input type="password">
+            <input type="password" id="txtPassword">
             <br>
-            <input type="checkbox"> Recordar usuario y Contraseña
+            <input type="checkbox" id="chbxRemember"> Recordar usuario y Contraseña
             <br>
-            <input type="submit" value="Enviar">
-            <input type="reset" value="Limpiar">
+            <input type="submit" value="Enviar" id="btnSubmit" onclick="Mostrar()">
+            <input type="reset" value="Limpiar" id="btnReset" onclick="alert('Reseteado maquinola')">
         </fieldset>
     </form>
     </body>
