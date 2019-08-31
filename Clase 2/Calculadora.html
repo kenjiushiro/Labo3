@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="./funciones.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>
+        Calculadora
+    </h1>
+    <fieldset>
+        <legend>
+            Sumar numeros
+        </legend>
+
+        <h3>Ya puede ver el resultado y se ha guardado</h3>
+
+        <br>
+        <input type="number" id = "numero1" value = "0"> 
+        +
+        <input type="number" id = "numero2" value = "0">
+        <input type="button" id = "btnSumar" value = "Sumar">
+        <input type="button" id = "btnSumarYGuardar" value = "Sumar y guardar">
+        <hr>
+        Resultado:
+         <input type="text" id = "resultado">
+        <hr>
+        <h2> Historial de resultados</h2>
+        <table border = "1">
+            <thead>
+                <tr>
+                    <td>Numero 1</td>
+                    <td>Numero 2</td>
+                    <td>Resultado</td>
+                </tr>
+            </thead>
+            <tbody id = "tablaResultados">
+
+            </tbody>
+        </table>
+
+    </fieldset>
+</body>
+</html>
