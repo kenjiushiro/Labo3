@@ -1,0 +1,58 @@
+/* Le pongo al background el color red */
+body{
+    background-color: rgb(235, 155, 155);
+
+}
+
+/* Puedo ponerle el mismo estilo a varios tags */
+h1,h2{
+    color: green;
+    font-family:Arial, Helvetica, sans-serif;
+
+}
+/* Todos los elementos con tag p vana  ser rojos */
+p{
+    color:red;
+}
+
+/* Todos los elemenos con tag p y class "negrita" van a estar en negrita y ser de 20pt  */
+p.negrita{
+    font-weight: bold;
+    font-size: 20pt;
+}
+
+/* Puedo definir una clase poniendo .nombreClase, a todo lo que le ponga esto como clase va a tomar esas propiedades */
+.otraClase
+{
+    color: yellow;
+}
+
+/* Agrego estilo a los elemenos con clase boton */
+.boton{
+    color: white;
+    background-color: rgba(255, 162, 0, 0.26);
+    width: 120px;
+    height: 60px;
+    /* Redondeado de las esquinas */
+    border-radius: 10px;
+    /* Margin es la distancia del boton con el entorno(otros elemenos, bordes de pantalla) */
+    margin: 20px;
+    /* Padding es el margen pero para adentro del texto */
+    padding-left: 0px;
+    /* Cursor cuando paso por arriba */
+    cursor:pointer;
+}
+
+/* Cambia el estilo de los elemenos con clase boton cuando paso el mouse por arriba */
+.botonOK:hover
+{
+    background-color:lightgreen;
+
+}
+
+.botonCancel:hover
+{
+    background-color: lightcoral;
+}
+
+
