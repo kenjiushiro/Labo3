@@ -55,4 +55,15 @@ p.negrita{
     background-color: lightcoral;
 }
 
+/* Para un elemento en particular se usa #id */
+#btnSubmit
+{
+	
+}
 
+/* Cambia las propiedades de todos los elementos inputq que sean tipo texto */
+input[type=text]
+{
+
+
+}

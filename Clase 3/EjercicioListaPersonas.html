@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lista Personas</title>
+    <link rel = "stylesheet" type = "text/css" href= "./estilosTablaPersonas.css">
+    <script type="text/javascript" src="./funcionesTablaPersonas.js"></script>    
+</head>
+<body>
+    <div class="contenedor">
+        <label for="txtNombre">Nombre</label>
+        <br>
+        <input class="sinError" type="text" id="txtNombre" placeholder="Ingresar nombre"> 
+        <br>
+        <label for="txtApellido">Apellido</label>
+        <br>
+        <input class="sinError" type="text" id="txtApellido" placeholder="Ingresar apellido"> 
+        <br>
+        <input type="button" id="btnGuardar" value="Guardar" class="boton">
+    </div>
+        
+    <h2>Lista personas</h1>
+
+    <table class="tablaPersonas" >
+        <thead> 
+            <tr>
+                <td>Nombre</td>
+                <td>Apellido</td>
+                <td>Accion</td>
+            </tr>
+
+        </thead>
+        <tbody id="tbodyPersonas">
+
+        </tbody>
+
+    </table>
+</body>
+</html>
