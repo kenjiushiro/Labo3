@@ -215,6 +215,8 @@ li{
 
 .fotoBlog{
     max-width: 160px;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .comentariosFin{
@@ -225,7 +227,6 @@ li{
 .bloqueBlog{
     display:flex;
     flex-direction: row;
-    margin: 20px;
 }
 
 .blogTitle{
@@ -233,14 +234,31 @@ li{
     font-size: 15px;
     font-weight: bold;
 }
+
 .blog{
     flex-direction: column;
+}
+
+.autorBlog{
+    margin-left: 20px;
+    font-size: 10px;
 }
 .blogDesc{
     margin: 20px;
     font-size: 10px;
     width: 50%;
     line-height: 20px;
+}
+
+.piePagina{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: rgb(44, 44, 44);
+    color:white;
+    font-size: 10px;
+    height: 60px;
+    align-items: center;
 }
 
 
