@@ -2,11 +2,16 @@
     color: white;
     display: flex;
     background-image: url("./img/header.jpg");
-    width: 100%;
-    height: 1238px;
+    background-position: cente center;
+    background-size: cover;
+    /* 100% de la pantalla visible */
+    height: 100vh;
     position: relative;
 }
-
+body
+{
+    margin: 0px;
+}
 .titulo{
     font-size: 20px;
     margin-left: 20%;
@@ -30,10 +35,10 @@ li{
 
 .container{
     background-color: White;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 .imgFoot{
-    font-family:Lato;
     font-size: 17px;
     position: absolute;
     bottom: 0;
@@ -80,11 +85,15 @@ li{
     flex-direction: column;
     justify-content: center;
     margin:auto;
+    margin-left: 10px;
     font-weight: bold;
     margin-top: 20px;
     margin-bottom: 25px;
 }
-
+.botonesPie
+{
+    margin-right: 10px;
+}
 .descSobre{
     flex-direction: column;
     margin:auto;
@@ -106,7 +115,7 @@ li{
     width: 20%;
     background-color: rgb(236, 236, 236) ;
     border: 1px grey solid;
-    padding-left: 10px;
+    padding-left: 0px;
     flex-direction: column;
     margin: 5px;
 }
@@ -220,12 +229,16 @@ li{
 }
 
 .comentariosFin{
+    display:flex;
     flex-direction: column;
     justify-content: center;
+    
+    text-align: center;
 }
 
 .bloqueBlog{
     display:flex;
+    text-align: left;
     flex-direction: row;
 }
 
