@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AJAX</title>
+    <!-- <link rel = "stylesheet" type = "text/css" href= "./pathCss.css"> -->
+    <script>
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function(){
+            //readyState muestra el estado del request (0,1,2,3,4) 4 significa que ya esta  listo
+            //status muestra el codigo de respuesta (404 es not foudn, 200 es que devolvio bien el valor)
+            console.log("Llego respuesta ", xhttp.readyState,xhttp.status);
+
+            //Solo se entra al if al tener respuesta positiva
+            if (xhttp.readyState === 4 && xhttp.status === 200  )
+            {
+                // xhttp.responseText es la respuesta del servidor
+                console.log("Tenemos respuesta",xhttp.responseText);
+            }
+        }
+
+        //Envia peticion get al servidor localhost:3000...
+        //este servidor se ejecuta abriendo consola en el dir donde esta el index.js y escribiendo node index.js
+        xhttp.open("GET","http://localhost:3000/login");
+        xhttp.send();
+        // status 200 -> el servidor recibio respuesta
+        // onreadystatechange se dispara cada vez que la propiedad cambia a readyState
+    </script>
+    
+    qwdqwd
+</head>
+<body>
+    
+</body>
+</html>
