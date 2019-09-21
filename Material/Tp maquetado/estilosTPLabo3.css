@@ -257,7 +257,8 @@ footer{
 }
 
 .rights{
-    text-align: center center;
+    position: relative;
+
 }
 span.time{
     color: orange;
