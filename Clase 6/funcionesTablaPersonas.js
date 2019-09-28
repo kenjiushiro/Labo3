@@ -58,14 +58,17 @@ function Ocultar()
 
 function AltaPersona(persona){
     var xhttp = new XMLHttpRequest();
+    document.getElementById("loadingIcon").hidden = false;
     xhttp.open("POST","http://127.0.0.1:3000/nuevaPersona");
     //El setRequestHeder setea el tipo de valor que se le va a pasar y el formato
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
     xhttp.send(JSON.stringify(persona));
-
     xhttp.onreadystatechange = function(){
         if (xhttp.readyState === 4 && xhttp.status === 200  )
-        console.log(JSON.parse(xhttp.responseText));
+        {
+            document.getElementById("loadingIcon").hidden = true;
+            console.log(JSON.parse(xhttp.responseText));
+        }
     }
       
 }

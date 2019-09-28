@@ -139,7 +139,13 @@ tbody
     display: flex;
     flex-direction: row;
 }
-
+.loader {
+    width: 80%;
+    height: 80%;
+    opacity: 50%;
+    position: absolute;
+    z-index: 10;
+}
 .divTabla
 {
     width: 100%;
