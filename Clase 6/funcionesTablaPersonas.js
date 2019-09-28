@@ -87,25 +87,30 @@ function GuardarPersona(persona){
     var apellidoTd = document.createElement("td");
     var telefonoTd = document.createElement("td");
     var fechaTd= document.createElement("td");
+    var nombreTxt = document.createTextNode(persona.nombre);
+    var apellidoTxt = document.createTextNode(persona.apellido);
+    var fechaTxt = document.createTextNode(persona.fecha);
+    var telefonoTxt = document.createTextNode(persona.telefono);
     
-    nombreTd.innerText = persona.nombre;
+    nombreTd.appendChild(nombreTxt);
     nombreTd.className = "nombre";
     nombreTd.id = "nombre" + lineaNro;
     // nombreTd.setAttribute("name","nombre");
 
-    apellidoTd.innerText = persona.apellido;
+    apellidoTd.appendChild(apellidoTxt);
     apellidoTd.className = "apellido";
     apellidoTd.id = "apellido" + lineaNro;
     // apellidoTd.setAttribute("name","apellido");
 
-    telefonoTd.innerText = persona.telefono;
+    telefonoTd.appendChild(telefonoTxt);
     telefonoTd.className = "telefono";
     telefonoTd.id = "telefono" + lineaNro;
     // nombreTd.setAttribute("name","nombre");
 
-    fechaTd.innerText = persona.fecha;
+    fechaTd.appendChild(fechaTxt);
     fechaTd.className = "fecha";
     fechaTd.id = "fecha" + lineaNro;
+
     // apellidoTd.setAttribute("name","apellido");
     rowNueva.appendChild(nombreTd);
     rowNueva.appendChild(apellidoTd);
@@ -118,11 +123,11 @@ function GuardarPersona(persona){
 
 
     botonBorrar.text = "Borrar";
-    botonBorrar.href = "";
+    botonBorrar.setAttribute("href","");
     botonBorrar.className = "btnBorMod";
     
     botonModificar.text = "Modificar";
-    botonModificar.href = "";
+    botonModificar.setAttribute("href","");
     botonModificar.className = "btnBorMod";
 
     nuevaCelda.appendChild(botonBorrar);
