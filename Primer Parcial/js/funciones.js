@@ -58,13 +58,11 @@ function GuardarItem(item){
     cardDiv.className = "card";
     var imgImg = document.createElement("img");
     imgImg.className = "profilePic";
-    imgImg.src = "./user.png";
+    imgImg.src = "./img/user.png";
     var userdataDiv = document.createElement("div");
     userdataDiv.className = "userData";
     cardDiv.appendChild(imgImg);
     cardDiv.appendChild(userdataDiv);
-    
-
 
     for (var objetoJson in item) {
         
