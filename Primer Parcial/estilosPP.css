@@ -1,0 +1,172 @@
+
+.boton   
+{
+    color: whitesmoke;
+    background-color: limegreen;
+    padding: 12px;
+    size: 20pt;
+    margin: 20px;
+    width: 50%;
+    height: 60px;
+    /* Redondeado de las esquinas */
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+
+
+.boton:hover
+{
+    background-color: darkolivegreen  ;
+}
+
+p
+{
+    size: 20pt;
+}
+
+#mostrarFormBtn:hover
+{
+    border:2px;
+    border-color: black;
+
+}
+#mostrarFormBtn
+{
+    border:none;
+    color: white;
+    background-color: darkolivegreen;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    border-radius: 5px;
+    padding: 10px;
+
+}
+
+
+
+
+.contenedor
+{
+    width: 50%;
+    height: 60%;
+    background-color: rgb(167, 132, 132);
+    padding: 20px;
+    border-radius:10px;
+    margin-left:25%;
+    margin-top:15%;
+    position: absolute;
+
+    
+}
+
+input[type=text],input[type=number],input[type=date]
+{
+    padding: 9px;
+    width: 100%;
+    height: 40px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    margin: 5px;
+
+}
+
+.row
+{
+    display:flex;
+    flex-direction: row;
+}
+
+h1{
+    color: green;
+    background-color: lightgoldenrodyellow;
+    padding: 20px;
+    width: 60%;
+    border-color: black;
+    border: 5px;
+}
+
+.tablaPersonas
+{
+    width: 50%;
+    /* Saca el borde de las columnas */
+    border-collapse: collapse;
+}
+
+
+thead
+{
+    background-color: darkcyan;
+    color: white;
+    
+}
+tr:nth-child(even)
+{
+    background-color: white;
+
+}
+
+
+th,td
+{
+    text-align: left;
+    padding: 8px;
+}
+
+th{
+    color: white;
+}
+
+tbody
+{
+    background-color: lightgrey;
+}
+
+.sinError
+{
+    border: 1px solid grey;
+}
+
+
+
+.conError
+{
+    border: 2px solid red;
+}
+
+.containerAll{
+    display: flex;
+    flex-direction: row;
+}
+.loader {
+    width: 80%;
+    height: 80%;
+    opacity: 50%;
+    position: fixed;
+    z-index: 10;
+}
+.divTabla
+{
+    width: 100%;
+}
+
+
+
+.btnBorMod{
+    margin-left: 10px;
+    color:  red;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: auto;
+}
+
+.nombre{
+    color:red;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.apellido
+{
+    color: green;
+    font-family: Arial, Helvetica, sans-serif;
+}

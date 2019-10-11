@@ -7,10 +7,10 @@ function SetFunctions()
     botonGuardar.addEventListener("click",Guardar);
     var botonMostrar = document.getElementById("mostrarFormBtn");   
     botonMostrar.addEventListener("click",Mostrar);
-    var botonOcultar = document.getElementById("btnOcultar");
+    var botonOcultar = doc
+    ument.getElementById("btnOcultar");
     btnOcultar.addEventListener("click",Ocultar);
     var formPersona = document.getElementById("formPersona");
-    
 }
 
 function Mostrar()

@@ -73,6 +73,16 @@ function AltaPersona(persona){
       
 }
 
+function AppendToRow(texto,classElemento){
+    var tdNuevo = document.createElement("td");
+    var textoNuevo = document.createTextNode(texto);
+    if(classElemento!=undefined){
+        tdNuevo.className = classElemento;
+    }
+    tdNuevo.appendChild(textoNuevo);
+    return tdNuevo;
+
+}
 
 
 function GuardarPersona(persona){
@@ -81,41 +91,11 @@ function GuardarPersona(persona){
     //var persona = {};
     
     rowNueva.className = "filaPersona";
-    // var nombre = document.createTextNode(nombre.value);
-    // var apellido = document.createTextNode(apellido.value);
-    var nombreTd = document.createElement("td"); 
-    var apellidoTd = document.createElement("td");
-    var telefonoTd = document.createElement("td");
-    var fechaTd= document.createElement("td");
-    var nombreTxt = document.createTextNode(persona.nombre);
-    var apellidoTxt = document.createTextNode(persona.apellido);
-    var fechaTxt = document.createTextNode(persona.fecha);
-    var telefonoTxt = document.createTextNode(persona.telefono);
-    
-    nombreTd.appendChild(nombreTxt);
-    nombreTd.className = "nombre";
-    nombreTd.id = "nombre" + lineaNro;
-    // nombreTd.setAttribute("name","nombre");
 
-    apellidoTd.appendChild(apellidoTxt);
-    apellidoTd.className = "apellido";
-    apellidoTd.id = "apellido" + lineaNro;
-    // apellidoTd.setAttribute("name","apellido");
+    for (var objetoJson in persona) {
+        rowNueva.appendChild(AppendToRow(persona[objetoJson],objetoJson));
+    }
 
-    telefonoTd.appendChild(telefonoTxt);
-    telefonoTd.className = "telefono";
-    telefonoTd.id = "telefono" + lineaNro;
-    // nombreTd.setAttribute("name","nombre");
-
-    fechaTd.appendChild(fechaTxt);
-    fechaTd.className = "fecha";
-    fechaTd.id = "fecha" + lineaNro;
-
-    // apellidoTd.setAttribute("name","apellido");
-    rowNueva.appendChild(nombreTd);
-    rowNueva.appendChild(apellidoTd);
-    rowNueva.appendChild(telefonoTd);
-    rowNueva.appendChild(fechaTd);
     
     var botonBorrar = document.createElement("a");
     var botonModificar = document.createElement("a");
@@ -133,19 +113,16 @@ function GuardarPersona(persona){
     nuevaCelda.appendChild(botonBorrar);
     nuevaCelda.appendChild(botonModificar);
     
-    //Cuando se haga click se pasa el parametro event (para evitar el refresh por el href)
-    //botonBorrar.onclick = Borrar;
     botonBorrar.addEventListener("click",Borrar);
     botonModificar.addEventListener("click",Modificar);
     rowNueva.insertCell().appendChild(nuevaCelda);
 
-    lineaNro++;
-    var formPersona = document.getElementById("formPersona");
 }
 
 
 function Guardar(e)
 {   
+    e.preventDefault();
     var tabla = document.getElementById("tbodyPersonas");
     var nombre = document.getElementById("txtNombre");
     var apellido = document.getElementById("txtApellido");

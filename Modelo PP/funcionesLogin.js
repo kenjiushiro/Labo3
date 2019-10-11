@@ -1,4 +1,5 @@
 window.addEventListener("load",cargo);
+
 function cargo(){
     var boton = document.getElementById("btnSubmit");
     boton.addEventListener("click",EnviarClicked)
@@ -49,11 +50,3 @@ function EnviarClicked(e){
 
 
 }
-
-
-
-function log(){
-    var a = document.getElementById("txtUsername");
-    alert(a.value);
-}
-
