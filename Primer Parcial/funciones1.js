@@ -1,32 +1,47 @@
 window.addEventListener("load",SetFunctions);
 window.addEventListener("load",getPersonas);
-var lineaVieja;
-
+var userCard;
+var id;
 function SetFunctions(){
-    var botonGuardar = document.getElementById("btnGuardar");
-    botonGuardar.addEventListener("click",Guardar);
+    var botonOcultar = document.getElementById("btnOcultar");
+    botonOcultar.addEventListener("click",Ocultar);
+
+    var btnEliminar = document.getElementById("btnEliminar");  
+    btnEliminar.addEventListener("click",Borrar);
+
+    var btnModificr = document.getElementById("btnModificr");   
+    btnModificr.addEventListener("click",Modificar);
+
     var botonMostrar = document.getElementById("mostrarFormBtn");   
     botonMostrar.addEventListener("click",Mostrar);
-    var botonOcultar = document.getElementById("btnOcultar");
-    btnOcultar.addEventListener("click",Ocultar);
-    var formPersona = document.getElementById("formPersona");
 
-    //getPersonas();
+    //var formPersona = document.getElementById("formPersona");
+
 }
 
-function Mostrar()
+function Mostrar(e)
 {
+    userCard = e.target;
+    var userDataDiv = e.target.childNodes[1];
+    var txtNombre = document.getElementById("txtNombre");
+    var txtApellido = document.getElementById("txtApellido");
+    id = (userDataDiv.childNodes[0].innerText);
+    var nombre =(userDataDiv.childNodes[1].innerText);
+    var apellido =(userDataDiv.childNodes[2].innerText);
+    var sexo =(userDataDiv.childNodes[3].innerText);
+
+    txtNombre.value = nombre;
+    txtApellido.value = apellido;
+    if (sexo == "Male"){
+        var radioBtnMale = document.getElementById("radioBtnMale").checked = true;
+    }
+    else{
+        var radioBtnFemale = document.getElementById("radioBtnFemale").checked = true;
+    }
+    //console.log(id,nombre,apellido,sexo);
+
     var form = document.getElementById("formPP");
-    if (form.hidden)
-        form.hidden = false;
-    else
-        form.hidden = true;
-
-    var botonGuardar = document.getElementById("btnGuardar");
-    botonGuardar.removeEventListener("click",Modificar);
-    botonGuardar.value = "Guardar";
-    botonGuardar.addEventListener("click",Guardar);
-
+    form.hidden = false;
 }
 
 function Ocultar()
@@ -35,107 +50,53 @@ function Ocultar()
     form.hidden = true;
 }
 
-function Post(e){
-    console.log("Submit clickeado");
-    e.preventDefault();
-    var xhttp = new XMLHttpRequest();
-    var user = document.getElementById("txtUsername").value;
-    var password = document.getElementById("txtPassword").value;
 
-    var loadingIcon = document.getElementById("loading-icon");
-
-    loadingIcon.hidden= false;
-    loadingIcon.style.visibility = 'visible';
-    //POST
-    xhttp.open("POST","http://localhost:1337/login");
-
-    //El setRequestHeder setea el tipo de valor que se le va a pasar y el formato
-    //xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
-    var loginData  = {"email":user,"password":password};
-    xhttp.send(JSON.stringify(loginData));
-    
-    xhttp.onreadystatechange = function(){
-        if (xhttp.readyState === 4 && xhttp.status === 200){
-
-            //console.log("Tenemos respuesta",xhttp.responseText);
-            var respuesta =JSON.parse(xhttp.responseText)
-            loadingIcon.style.visibility = 'hidden';
-            loadingIcon.hidden=true;
-            console.log(respuesta.autenticado=="si");
-
-            if(respuesta.autenticado == "si"){
-                window.location.href  = './index.html';
-            }
-        }
-    }
-}
-
-
-// Agregar row a tabla 
+// Agregar card  
 function GuardarItem(item){
-    var tabla = document.getElementById("tbodyTabla");
-    var rowNueva = document.createElement("tr");
-    //var persona = {};
+    //console.log(item);
+    var cardDiv = document.createElement("div");
+    cardDiv.className = "card";
+    var imgImg = document.createElement("img");
+    imgImg.className = "profilePic";
+    imgImg.src = "./user.png";
+    var userdataDiv = document.createElement("div");
+    userdataDiv.className = "userData";
+    cardDiv.appendChild(imgImg);
+    cardDiv.appendChild(userdataDiv);
     
-    rowNueva.className = "filaPersona";
+
 
     for (var objetoJson in item) {
-        rowNueva.appendChild(AppendToRow(item[objetoJson],objetoJson));
+        
+        var pNuevo = AgregarData(item[objetoJson],objetoJson);
+        pNuevo.className ="userDataItem";
+            if(objetoJson=="id"){
+                pNuevo.hidden = true;
+            }
+        userdataDiv.appendChild(pNuevo);
+        
     }
-
-    var botonBorrar = document.createElement("a");
-    var botonModificar = document.createElement("a");
-    var nuevaCelda = document.createElement("td");
-
-
-    botonBorrar.text = "Borrar";
-    botonBorrar.setAttribute("href","");
-    botonBorrar.className = "btnBorMod";
-    
-    botonModificar.text = "Modificar";
-    botonModificar.setAttribute("href","");
-    botonModificar.className = "btnBorMod";
-
-    nuevaCelda.appendChild(botonBorrar);
-    nuevaCelda.appendChild(botonModificar);
-    
-    botonBorrar.addEventListener("click",Borrar);
-    botonModificar.addEventListener("click",Modificar);
-    rowNueva.insertCell().appendChild(nuevaCelda);
-    return rowNueva;
+    cardDiv.addEventListener("dblclick",Mostrar);
+    return cardDiv;
 
 }
 
-function AppendToRow(texto,classElemento){
-    var tdNuevo = document.createElement("td");
+function AgregarData(texto,classElemento){
+    var pNuevo = document.createElement("p");
     var textoNuevo = document.createTextNode(texto);
+
     if(classElemento!=undefined){
-        tdNuevo.className = classElemento;
-    }
-    tdNuevo.appendChild(textoNuevo);
-    return tdNuevo;
-
-}
-
-
-//Validacion de parametros y creacion de objeto json
-function Guardar(e)
-{   
-    e.preventDefault();
-    var tabla = document.getElementById("tbodyTabla");
-
-    var item  = LeerObjeto();
-    if (item != ""){
-        console.log(item);
-        tabla.appendChild(GuardarItem(item));
-        AltaItem(item);
+        pNuevo.className = classElemento;
     }
 
-    
+    pNuevo.appendChild(textoNuevo);
+    return pNuevo;
+
 }
 
 function Validar(elemento){
-    if(elemento.value == "")
+    console.log(elemento.value.length);
+    if(elemento.value == "" || elemento.value.length < 3)
         elemento.className = "conError";
     else    
         elemento.className = "sinError";
@@ -143,127 +104,90 @@ function Validar(elemento){
 
 
 function Modificar(e){
-    e.preventDefault();
-    
-    lineaVieja = e.target.parentNode.parentNode.parentNode;
-    var lineaNueva;
-    Mostrar();
-    
-    var botonGuardar = document.getElementById("btnGuardar");
-    botonGuardar.removeEventListener("click",Guardar);
-    botonGuardar.addEventListener("click",ModificarFila);
-    botonGuardar.value = "Modificar";
-    
-
-   
-
-}
-
-function ModificarFila(e)
-{
-    var item  = LeerObjeto();
-    if (item != ""){
-        console.log(item);
-        lineaVieja.replaceWith(GuardarItem(item));
-        AltaItem(item);
-    }
-}
-
-function LeerObjeto(){
-    var tabla = document.getElementById("tbodyTabla");
-    var nombre = document.getElementById("txtNombre");
-    var apellido = document.getElementById("txtApellido");
-    var telefono = document.getElementById("txtTelefono");
-    var fechaDeNacimiento = document.getElementById("txtFecha");
-    
-    Validar(nombre);
-    Validar(apellido);
-    Validar(telefono);
-    Validar(fechaDeNacimiento);
-    
-    if (apellido.value != "" && nombre.value != "" && telefono.value != "" && fechaDeNacimiento.value != "")
-    {
-        var persona  = {"nombre":nombre.value,"apellido":apellido.value,"fecha":fechaDeNacimiento.value, "telefono":telefono.value}
-        return persona;
-    }
-    
-    return "";
-
-
-}
-
-
-function Borrar(e)
-{   
-    e.preventDefault();
-    var linea = e.target.parentNode.parentNode.parentNode;
-    linea.remove();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Post con json
-function AltaItem(itemJson){
+    var persona = LeerObjeto();
+    console.log(persona);
+    var newCard;
     var xhttp = new XMLHttpRequest();
 
     document.getElementById("loadingIcon").hidden = false;
-    xhttp.open("POST","http://127.0.0.1:3000/nuevaPersona");
+    xhttp.open("POST","http://127.0.0.1:3000/editar");
     //El setRequestHeder setea el tipo de valor que se le va a pasar y el formato
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-    xhttp.send(JSON.stringify(itemJson));
+    xhttp.send(JSON.stringify(persona));
     xhttp.onreadystatechange = function(){
         if (xhttp.readyState === 4 && xhttp.status === 200  )
         {
             document.getElementById("loadingIcon").hidden = true;
             console.log(JSON.parse(xhttp.responseText));
+            newCard = GuardarItem(persona);
+            ReemplazarCard(newCard);
+            Ocultar();
         }
     }
-      
 }
 
-//GET con json
-function getPersonas(){
-    var tabla = document.getElementById("tbodyTabla");
+function ReemplazarCard(newCard)
+{
+    //console.log(newCard);
+    userCard.replaceWith(newCard);
+}
+
+function LeerObjeto(){
+    var nombre = document.getElementById("txtNombre");
+    var apellido = document.getElementById("txtApellido");
+    var sexo = "Female";
+    if(document.getElementById("radioBtnMale").checked){
+        sexo = "Male";
+    }
+
+    Validar(nombre);
+    Validar(apellido);
+    
+    if (apellido.value != "" && nombre.value)
+    {
+        var persona  = {"id":parseInt(id),"nombre":nombre.value,"apellido":apellido.value,"sexo":sexo}
+        return persona;
+    }
+    return "";
+}
+
+
+function Borrar(e)
+{       
     var xhttp = new XMLHttpRequest();
+    var deleteID = {"id":parseInt(id)};
+    console.log(deleteID);
+    document.getElementById("loadingIcon").hidden = false;
+    xhttp.open("POST","http://127.0.0.1:3000/eliminar");
+    //El setRequestHeder setea el tipo de valor que se le va a pasar y el formato
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    xhttp.send(JSON.stringify(deleteID));
+    xhttp.onreadystatechange = function(){
+        if (xhttp.readyState === 4 && xhttp.status === 200  )
+        {
+            document.getElementById("loadingIcon").hidden = true;
+            console.log(JSON.parse(xhttp.responseText));
+            userCard.remove();
+            Ocultar();
+        }
+    }
+}
+
+
+function getPersonas(){
+    var xhttp = new XMLHttpRequest();
+    var cardContainerDiv = document.getElementById("cardContainer");
+
     xhttp.open("GET","http://127.0.0.1:3000/personas");
     xhttp.send();
     xhttp.onreadystatechange = function(){
         if (xhttp.readyState === 4 && xhttp.status === 200  )
-            //console.log("Tenemos respuesta",xhttp.responseText);
-            var listaItems = JSON.parse(xhttp.responseText);
-            //console.log(listaPersonas);
-            listaItems.forEach(function(item) {
-                tabla.appendChild(GuardarItem(item));
+            var listaPersonas = JSON.parse(xhttp.responseText);
+
+            listaPersonas.forEach(function(item) {
+                //console.log(item);
+                var cardNueva = GuardarItem(item);
+                cardContainerDiv.appendChild(cardNueva);
               });
     }
-    //GET
-    /*
-    xhttp.open("GET","http://localhost:3000/loginUsuario?usr=" + user + "&pass=" + password,true);
-    xhttp.send();
-    */
-
-//     //POST
-//     xhttp.open("POST","http://localhost:3000/loginUsuario");
-//     //El setRequestHeder setea el tipo de valor que se le va a pasar y el formato
-//     xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
-//     xhttp.send("usr=" + user + "&pass=" + password);
 }

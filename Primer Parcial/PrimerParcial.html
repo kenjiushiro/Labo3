@@ -10,51 +10,38 @@
 </head>
 <body>
     <div class="containerAll">
+            <div id="loadingIcon" class="loader" hidden><img class="loader" src="./loading-icon.gif" alt=""></div>
+        <div id="cardContainer" class="cardContainer">
 
-        <div class="divTabla">
-            <h1>Lista personas</h1>
-            <input type="button" value="Mostrar/Ocultar form" id="mostrarFormBtn">
             
-            <table class="tabla" >
-                <thead> 
-                    <tr>
-                        <td>Nombre</td>
-                        <td>Apellido</td>
-                        <td>Telefono</td>
-                        <td>Fecha de nacimiento</td>
-                        <td>Accion</td>
-                    </tr>
-                    
-                </thead>
-                <tbody id="tbodyTabla">
-                </tbody>
-            </table>
         </div>
-
-        <div id="loadingIcon" class="loader" hidden><img class="loader" src="./loading-icon.gif" alt=""></div>
-        <div id="formPP" class="contenedor" hidden>
-            <label for="txtNombre">Nombre</label>
-            <br>
-            <input class="sinError" type="text" id="txtNombre" placeholder="Ingresar nombre"> 
-            <br>
-            <label for="txtApellido">Apellido</label>
-            <br>
-            <input class="sinError" type="text" id="txtApellido" placeholder="Ingresar apellido"> 
-            <br>
-            <label for="txtTelefono">Telefono</label>
-            <br>
-            <input class="sinError" type="number" id="txtTelefono" placeholder="Ingresar telefono"> 
-            <br>
-            <label for="txtFecha">Fecha de nacimiento</label>
-            <br>
-            <input class="sinError" type="date" id="txtFecha" placeholder="Ingresar fecha de nacimiento"> 
-            <br>
-            <div class="row">
-                <input type="button" id="btnGuardar" value="Guardar" class="boton">
-                <input type="button" id="btnOcultar" value="Cerrar" class="boton">
-            </div>
-            </div>
         
+        <div id="formPP" class="contenedor" hidden>
+            <input type="button" id="btnOcultar" value="X" class="boton botonCerrar">
+            <br>
+            <label for="txtNombre">Nombre</label>
+            <input class="sinError" type="text" id="txtNombre" placeholder="Ingresar nombre"> 
+            <label for="txtApellido">Apellido</label>
+            <input class="sinError" type="text" id="txtApellido" placeholder="Ingresar apellido"> 
+            <label>Sexo</label>
+
+            <div>
+                <input type="radio" id="radioBtnFemale" name="drone" value="female"
+                    checked>
+                <label for="huey">Femenino</label>
+            </div>
+            
+            <div>
+                <input type="radio" id="radioBtnMale" name="drone" value="male">
+                <label for="dewey">Masculino</label>
+            </div>
+            
+
+            <div class="row">
+                <input type="button" id="btnEliminar" value="Eliminar" class="boton">
+                <input type="button" id="btnModificr" value="Modificar" class="boton">
+            </div>
+        </div>
     </div>
     
 </body>
