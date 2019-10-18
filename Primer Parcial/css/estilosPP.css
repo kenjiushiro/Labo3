@@ -102,7 +102,11 @@
   filter: alpha(opacity=50); /* For IE8 and earlier */
 }
 
-
+.conError
+{
+    border-color: red;
+    border-width: 2px;
+}
 
 
 

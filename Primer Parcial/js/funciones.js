@@ -95,31 +95,41 @@ function AgregarData(texto,classElemento){
 function Validar(elemento){
     console.log(elemento.value.length);
     if(elemento.value == "" || elemento.value.length < 3)
+    {
         elemento.className = "conError";
+        return false;        
+    }
     else    
+    {
         elemento.className = "sinError";
+        return true;
+    }
 }
 
 
 function Modificar(e){
     var persona = LeerObjeto();
-    console.log(persona);
-    var newCard;
-    var xhttp = new XMLHttpRequest();
-
-    document.getElementById("loadingIcon").hidden = false;
-    xhttp.open("POST","http://127.0.0.1:3000/editar");
-    //El setRequestHeder setea el tipo de valor que se le va a pasar y el formato
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-    xhttp.send(JSON.stringify(persona));
-    xhttp.onreadystatechange = function(){
-        if (xhttp.readyState === 4 && xhttp.status === 200  )
-        {
-            document.getElementById("loadingIcon").hidden = true;
-            console.log(JSON.parse(xhttp.responseText));
-            newCard = GuardarItem(persona);
-            ReemplazarCard(newCard);
-            Ocultar();
+    if (persona != "")
+    {
+        
+        console.log(persona);
+        var newCard;
+        var xhttp = new XMLHttpRequest();
+        
+        document.getElementById("loadingIcon").hidden = false;
+        xhttp.open("POST","http://127.0.0.1:3000/editar");
+        //El setRequestHeder setea el tipo de valor que se le va a pasar y el formato
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+        xhttp.send(JSON.stringify(persona));
+        xhttp.onreadystatechange = function(){
+            if (xhttp.readyState === 4 && xhttp.status === 200  )
+            {
+                document.getElementById("loadingIcon").hidden = true;
+                console.log(JSON.parse(xhttp.responseText));
+                newCard = GuardarItem(persona);
+                ReemplazarCard(newCard);
+                Ocultar();
+            }
         }
     }
 }
@@ -137,11 +147,12 @@ function LeerObjeto(){
     if(document.getElementById("radioBtnMale").checked){
         sexo = "Male";
     }
+    var nombreValido;
+    var apellidoValido;
 
-    Validar(nombre);
-    Validar(apellido);
-    
-    if (apellido.value != "" && nombre.value)
+    nombreValido = Validar(nombre);
+    apellidoValido= Validar(apellido);
+    if (nombreValido && apellidoValido)
     {
         var persona  = {"id":parseInt(id),"nombre":nombre.value,"apellido":apellido.value,"sexo":sexo}
         return persona;
