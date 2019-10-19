@@ -57,3 +57,27 @@ function SetearPlaceholder()
     //Para poner atributos uso: 
     $("#txt").attr("placeholder","LALALA");
 }
+
+// Para ejecutar peticioes get o post con ajax https://www.w3schools.com/jquery/jquery_ajax_get_post.asp
+
+//GET
+$("#btn").click(function(){
+    $.get("localhost:3000/personas", function(data, status){
+      alert("Data: " + data + "\nStatus: " + status);
+    });
+  });
+
+//POST
+
+  $("button").click(function(){
+    $.post("localhost:3000/personas",
+    {
+      nombre: "Donald Duck",
+      apellido: "Duckburg",
+      sexo: "female",
+      id: 1
+    },
+    function(data, status){
+      alert("Data: " + data + "\nStatus: " + status);
+    });
+  });
