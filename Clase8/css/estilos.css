@@ -1,6 +1,13 @@
-#div1
+#divRojo
 {
     width: 5rem;
     height: 5rem;   
     background-color: red;;
+}
+
+div
+{
+    background-color: grey;
+    border-color: black;
+    border-width: 5px;
 }

@@ -22,6 +22,8 @@ printName.apply(person1);
 //     alert("ASD");
 // });
 
+$("#divRojo").fadeIn(3000);
+
 //Peticiones con ajax
 $.ajax(
     {
