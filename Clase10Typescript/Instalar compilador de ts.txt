@@ -1,0 +1,17 @@
+Instalar compilador de TS
+
+npm install -g tsc
+
+Transpilar file
+
+tsc ./Practica1.ts
+
+Transpila el file y watchea los cambios, cada vez que guardo el .ts lo transpila de nuevo
+
+tsc ./Practica1.ts -w
+
+Transpila todos los files en el directorio y agrega el watch
+
+
+Transpila ./*.ts -w
+
