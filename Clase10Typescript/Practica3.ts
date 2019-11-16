@@ -1,13 +1,13 @@
-
 // Objetos
-var batimovil = {
+
+let batimovil :{carroceria:string,modelo:string,antibalas:boolean,pasajeros:number}={
   carroceria: "Negra",
   modelo: "6x6",
   antibalas: true,
   pasajeros:4
 };
 
-var bumblebee = {
+var bumblebee:{carroceria:string,modelo:string,antibalas:boolean,pasajeros:number,disparar?} = {
   carroceria: "Amarillo con negro",
   modelo: "4x2",
   antibalas: true,

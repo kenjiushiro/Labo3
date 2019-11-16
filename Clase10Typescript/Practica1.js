@@ -8,18 +8,23 @@ var villano = ["Lex Lutor", 5, true];
 // Arreglos
 var aliados = ["Mujer Maravilla", "Acuaman", "San", "Flash"];
 //Enumeraciones
-var fuerzaFlash = 5;
-var fuerzaSuperman = 100;
-var fuerzaBatman = 1;
-var fuerzaAcuaman = 0;
+var Fuerzas;
+(function (Fuerzas) {
+    Fuerzas[Fuerzas["fuerzaFlash"] = 5] = "fuerzaFlash";
+    Fuerzas[Fuerzas["fuerzaSuperman"] = 100] = "fuerzaSuperman";
+    Fuerzas[Fuerzas["fuerzaBatman"] = 1] = "fuerzaBatman";
+    Fuerzas[Fuerzas["fuerzaAcuaman"] = 0] = "fuerzaAcuaman";
+})(Fuerzas || (Fuerzas = {}));
 // Retorno de funciones
-function activar_batiseñal() {
+var activar_batiseñal = function () {
     return "activada";
-}
-function pedir_ayuda() {
+};
+var pedir_ayuda = function () {
     console.log("Auxilio!!!");
-}
+};
 // Aserciones de Tipo
-var poder = "100";
-var largoDelPoder = poder.length;
-console.log(largoDelPoder);
+var largo_tipo = function () {
+    var poder = "100";
+    var largoDelPoder = poder.length;
+    console.log(largoDelPoder);
+};
