@@ -15,3 +15,9 @@ Transpila todos los files en el directorio y agrega el watch
 
 Transpila ./*.ts -w
 
+
+
+
+Instalar jquery para typescript
+
+npm install --save @types/jquery
