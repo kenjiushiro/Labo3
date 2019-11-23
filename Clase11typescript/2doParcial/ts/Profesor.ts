@@ -1,7 +1,7 @@
 namespace Personas{
 
     
-    class Profesor extends Persona{
+    export class Profesor extends Persona{
         cuil:string;
         constructor(nombre:string,apellido:string,cuil:string){
             super(nombre,apellido);
@@ -9,7 +9,7 @@ namespace Personas{
         }
         
         Saludar(){
-            console.log("Hola profesor " + super.nombre);
+            return "Hola profesor " + super.getNombre() + " " + super.getApellido() + " " + this.cuil;
         }
 
     }

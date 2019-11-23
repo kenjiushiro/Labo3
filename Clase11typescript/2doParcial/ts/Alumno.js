@@ -18,13 +18,9 @@ var Personas;
             return _this;
         }
         Alumno.prototype.Saludar = function () {
-            console.log("Hola alumno " + _super.prototype.nombre);
+            return "Hola alumno " + _super.prototype.getNombre.call(this) + " " + _super.prototype.getApellido.call(this) + " " + this.legajo;
         };
         return Alumno;
     }(Personas.Persona));
     Personas.Alumno = Alumno;
-    function Modificar() {
-        console.log("asd");
-    }
-    Personas.Modificar = Modificar;
 })(Personas || (Personas = {}));

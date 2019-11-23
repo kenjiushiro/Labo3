@@ -20,31 +20,37 @@
         ABM Personas
     </h1>
     <div class="container">
-        <button id="botonPersona">
-            Boton persona
-        </button>
-        <button id="botonProfesor">
-            Boton profesor
-        </button>
-        <button id="botonAlumno">
-            Boton alumno
-        </button>
 
         <div class="form-group row">
-            <label for="user" class="col-lg-3 col-sm-12 col-form-label">Ingrese Usuario:</label>
+            <label for="txtNombre" class="col-lg-3 col-sm-12 col-form-label">Nombre:</label>
             <div class="col-lg-3">
-                <input type="text" class="form-control" id="usuario">
+                <input type="text" class="form-control" id="txtNombre">
             </div>
-            </div>
-            <div class="form-group row">
-            <label for="clave" class="col-lg-3 col-form-label">Ingrese Password:</label>
+        </div>
+        <div class="form-group row">
+            <label for="txtApellido" class="col-lg-3 col-form-label">Apellido:</label>
             <div class="col-lg-9">
-                <input type="password" class="form-control" id="clave">
+                <input type="text" class="form-control" id="txtApellido">
             </div>
+        </div>
+        <div class="form-group row">
+            <label for="clave" class="col-lg-3 col-form-label">Seleccionar tipo:</label>
+            <div class="col-lg-9">
+                <select name="tipoPersona" id="selectTipo"  class="form-control">
+                    <option value=1>Profesor</option>
+                    <option value=2>Alumno</option>
+                </select>
             </div>
-            <div class="row">
+        </div>
+        <div class="form-group row">
+            <label id="lblId" for="txtId" class="col-lg-3 col-form-label">CUIL:</label>
+            <div class="col-lg-9">
+                <input type="text" class="form-control" id="txtId">
+            </div>
+        </div>
+        <div class="row">
             <div class="offset-lg-3 col-lg-9">
-                <button class="btn btn-default" type="submit">Enviar</button>
+                <button class="btn btn-default" id="btnSubmit" type="btnSubmit">Enviar</button>
             </div>
         </div>
                             

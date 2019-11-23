@@ -18,8 +18,9 @@ var Personas;
             return _this;
         }
         Profesor.prototype.Saludar = function () {
-            console.log("Hola profesor " + _super.prototype.nombre);
+            return "Hola profesor " + _super.prototype.getNombre.call(this) + " " + _super.prototype.getApellido.call(this) + " " + this.cuil;
         };
         return Profesor;
     }(Personas.Persona));
+    Personas.Profesor = Profesor;
 })(Personas || (Personas = {}));

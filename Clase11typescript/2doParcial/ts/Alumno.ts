@@ -8,13 +8,10 @@ namespace Personas
         }
         
         Saludar(){
-            console.log("Hola alumno " + super.nombre);
+            return "Hola alumno " + super.getNombre() + " " + super.getApellido() + " " + this.legajo;
         }
         
     }
 
-    export function Modificar()
-    {
-        console.log("asd");
-    }
+    
 }
