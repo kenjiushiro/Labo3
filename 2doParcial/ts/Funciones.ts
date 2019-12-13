@@ -1,70 +1,53 @@
-namespace Vehiculos{
+namespace Personas
+{
     $("document").ready(InicializarBotones);
-    
-    console.log("asd");
-    var lista:Array<Vehiculo> = new Array<Vehiculo>();
+    var lista:Array<Persona> = new Array<Persona>();
+    var listaFiltrada:Array<Persona> = new Array<Persona>();
+    var currentLegajo:number;
+
     var formDisplayed:boolean;
     var filtrosDisplayed:boolean;
 
-    export function agregar()
-    {
-        let id = calcularID();
-        let marca = String($("#txtMarca").val());
-        let modelo = String($("#txtModelo").val());
-        let precio = Number($("#txtPrecio").val());
-        let vehiculo:Vehiculo;
-        let cantidadDePuertas:number;
-        let cuatroXcuatro:boolean;
 
-        if($("#selectTipo").val() == 1)
-        {
-            cantidadDePuertas = Number($("#txtCantPuertas").val());
-            vehiculo = new Auto(id,marca,modelo,precio,cantidadDePuertas);
-        }
-        else
-        {
-            let radioValue = $("input[name='es4x4']:checked").val();
-            if(radioValue == "true")
-                cuatroXcuatro = true;
-            else
-                cuatroXcuatro = false;
-
-            vehiculo = new Camioneta(id,marca,modelo,precio,cuatroXcuatro);
-        }
-        if(ValidarPuertas())
-        {
-            lista.push(vehiculo);
-            CargarTabla();
-            console.log(lista);
-        }
-
-    }
     
     export function InicializarBotones()
     {
-        $("#selectTipo").change(CambiarTipoIdentificador);
-        $("#btnSubmit").click(agregar);
-        $("#esCamioneta").hide();
+        $("#btnSubmit").click(agregarEmpleado);
         $("#formulario").hide();
         $("#formFiltros").hide();
         formDisplayed = false;
         $("#btnMostrarForm").click(MostrarForm);
         $("#btnMostrarFiltros").click(MostrarFiltros);
-        CargarTabla();
+        MostrarEmpleados();
     }
 
-    export function ValidarPuertas():boolean
+    export function agregarEmpleado()
     {
-        if ($("#txtCantPuertas").val() > 0 && $("#txtCantPuertas").val() < 6 )
-        {
-            $("#txtCantPuertas").addClass("border-secondary");
-            $("#txtCantPuertas").removeClass("border-danger");
-            return true;
-        }
+        let e:Empleado;
+        let legajo:number = Number($("#txtLegajo").val());
+        let nombre:string = String($("#txtNombre").val());
+        let apellido:string = String($("#txtApellido").val());
+        let edad:number = Number($("#txtEdad").val());
+
+        let horario:string;
+        let valSelectHorario:number;
+
+        valSelectHorario = Number($("#selectHorario").val());
+
+        if(valSelectHorario == 1)
+            horario = "Mañana";
+        else if(valSelectHorario == 2)
+            horario = "Tarde";
+        else
+            horario = "Noche";
+
+        console.log(nombre,apellido,edad,legajo,horario)
+        e = new Empleado(nombre,apellido,edad,legajo,horario);
         
-        $("#txtCantPuertas").removeClass("border-secondary");
-        $("#txtCantPuertas").addClass("border-danger");
-        return false;
+        lista.push(e);
+        CargarLista();
+        console.log(lista);
+
     }
 
     export function MostrarFiltros()
@@ -95,19 +78,7 @@ namespace Vehiculos{
         }
     }
 
-    function calcularID():number
-    {
-        if(lista.length != 0)
-        {
-            let  max:Vehiculo = lista.reduce(function(prev, current) {
-                return (prev.id > current.id) ? prev : current
-            }) 
-            
-            return max.id + 1;
-        }
-        return 0;
-    }
-    export function Filtrar()
+      export function Filtrar()
     {
 
 
@@ -119,79 +90,168 @@ namespace Vehiculos{
 
 
     
-    export function CargarTabla()
+    export function MostrarEmpleados()
     {   
-        $("#divListaVehiculos").html("");
-        let tablaVehiculos =document.createElement("table");
-        tablaVehiculos.setAttribute("class","table table-stripped");
-        $("#divListaVehiculos").append(tablaVehiculos);
+        CargarLista();
+        CargarListaFiltrada();
+    }
+
+    export function CargarLista()
+    {
+        $("#divLista").html("");
+        let tablaEmpleados =document.createElement("table");
+        tablaEmpleados.setAttribute("class","table table-stripped");
+        $("#divLista").append(tablaEmpleados);
+        let headerTabla = document.createElement("thead");
+        let bodyTabla = document.createElement("tbody");
+        let tableRow = document.createElement("tr");
+        let b:Element;
+        let m:Element;
+
+        let td = document.createElement("td");
+        td.innerText = "Nombre";
+        tableRow.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = "Apellido";
+        tableRow.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = "Edad";
+        tableRow.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = "Legajo";
+        tableRow.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = "Horario";
+        tableRow.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = "Acciones";
+        tableRow.appendChild(td);
+
+        tablaEmpleados.appendChild(headerTabla);
+        tablaEmpleados.appendChild(bodyTabla);
+        headerTabla.appendChild(tableRow);
+        
+        lista.forEach(function (empleado) {
+
+            tableRow = document.createElement("tr");
+            bodyTabla.appendChild(tableRow);
+
+            td = document.createElement("td");
+            td.innerText = String(empleado.getNombre());
+            tableRow.appendChild(td);
+
+            td = document.createElement("td");
+            td.innerText = String(empleado.getApellido());
+            tableRow.appendChild(td);
+
+            td = document.createElement("td");
+            td.innerText = String(empleado.getEdad());
+            tableRow.appendChild(td);
+            if (empleado instanceof Empleado)
+            {
+                
+                td = document.createElement("td");
+                td.innerText = String(empleado.getLegajo());
+                tableRow.appendChild(td);
+                
+                td = document.createElement("td");
+                td.innerText = String(empleado.getHorario());
+                tableRow.appendChild(td);
+
+                
+                td = document.createElement("td");
+                b = document.createElement("a");
+
+                b.setAttribute("id",String(empleado.getLegajo()));
+
+                b.innerHTML = "Borrar";
+                b.addEventListener("click",Borrar);
+                td.appendChild(b);
+
+                tableRow.appendChild(td);
+            }
+        }); 
+    }
+
+    export function Borrar(e)
+    {   
+        console.log(e.target.id);
+
+        
+        lista.forEach( (empleado,index) => 
+        {
+            if (empleado instanceof Empleado)
+            {   
+                if(empleado.getLegajo() === e.target.id) lista.splice(index,1);
+            }
+        });
+        CargarLista();
+    }
+
+    export function CargarListaFiltrada()
+    {
+        $("#divListaFiltrada").html("");
+        let tablaEmpleadosFiltrada =document.createElement("table");
+        tablaEmpleadosFiltrada.setAttribute("class","table table-stripped");
+        $("#divListaFiltrada").append(tablaEmpleadosFiltrada);
         let headerTabla = document.createElement("thead");
         let bodyTabla = document.createElement("tbody");
         let tableRow = document.createElement("tr");
         let td = document.createElement("td");
-        td.innerText = "ID";
+
+        td.innerText = "Nombre";
         tableRow.appendChild(td);
         td = document.createElement("td");
-        td.innerText = "Marca";
+        td.innerText = "Apellido";
         tableRow.appendChild(td);
         td = document.createElement("td");
-        td.innerText = "Modelo";
+        td.innerText = "Edad";
         tableRow.appendChild(td);
         td = document.createElement("td");
-        td.innerText = "Precio";
+        td.innerText = "Legajo";
         tableRow.appendChild(td);
         td = document.createElement("td");
-        td.innerText = "Cantidad Puertas";
+        td.innerText = "Horario";
         tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "4x4";
-        tableRow.appendChild(td);
-        tablaVehiculos.appendChild(headerTabla);
-        tablaVehiculos.appendChild(bodyTabla);
+
+        tablaEmpleadosFiltrada.appendChild(headerTabla);
+        tablaEmpleadosFiltrada.appendChild(bodyTabla);
         headerTabla.appendChild(tableRow);
         
-        lista.forEach(function (vehiculo) {
+        listaFiltrada.forEach(function (empleado) {
 
             tableRow = document.createElement("tr");
             bodyTabla.appendChild(tableRow);
-            console.log(vehiculo.getId());
+
             td = document.createElement("td");
-            td.innerText = String(vehiculo.getId());
+            td.innerText = String(empleado.getNombre());
             tableRow.appendChild(td);
 
             td = document.createElement("td");
-            td.innerText = String(vehiculo.getMarca());
+            td.innerText = String(empleado.getApellido());
             tableRow.appendChild(td);
 
             td = document.createElement("td");
-            td.innerText = String(vehiculo.getModelo());
+            td.innerText = String(empleado.getEdad());
             tableRow.appendChild(td);
-
-            td = document.createElement("td");
-            td.innerText = String(vehiculo.getPrecio());
-            tableRow.appendChild(td);
-
-            if (vehiculo instanceof Auto)
+            if (empleado instanceof Empleado)
             {
-                let auto:Auto;
-                auto = vehiculo;
+                
                 td = document.createElement("td");
-                td.innerText = String(auto.getCantidadPuertas());
+                td.innerText = String(empleado.getLegajo());
+                tableRow.appendChild(td);
+                
+                td = document.createElement("td");
+                td.innerText = String(empleado.getHorario());
                 tableRow.appendChild(td);
             }
-            else if(vehiculo instanceof Camioneta)
-            {
-                let camioneta:Camioneta;
-                camioneta=vehiculo;
-                td = document.createElement("td");
-                td.innerText = "";
-                tableRow.appendChild(td);
-                td = document.createElement("td");
-                td.innerText = String(camioneta.getCuatroXcuatro());
-                tableRow.appendChild(td);
-            }
+
           }); 
-        console.log(lista);
     }
 
     export function Calcular()
@@ -204,21 +264,6 @@ namespace Vehiculos{
         console.log(sumatoria/lista.length);
             
     }
-    export function CambiarTipoIdentificador()
-    {
-        if($("#selectTipo").val() == 1){
-            $("#lblAtributoSubclase").text("Cantidad de puertas");
-            $("#esAuto").show();
-            $("#esCamioneta").hide();
-        }   
-        else
-        {
-            $("#lblAtributoSubclase").text("Cuatro por cuatro");
-            $("#esAuto").hide();
-            $("#esCamioneta").show();
 
-        }
-    }
-    
     
 }
