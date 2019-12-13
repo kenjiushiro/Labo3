@@ -3,6 +3,7 @@ var Vehiculos;
     $("document").ready(InicializarBotones);
     console.log("asd");
     var lista = new Array();
+    var formDisplayed;
     function agregar() {
         var id = calcularID();
         var marca = String($("#txtMarca").val());
@@ -12,9 +13,8 @@ var Vehiculos;
         var cantidadDePuertas;
         var cuatroXcuatro;
         if ($("#selectTipo").val() == 1) {
-            cantidadDePuertas = Number($("#txtCantPuertas"));
+            cantidadDePuertas = Number($("#txtCantPuertas").val());
             vehiculo = new Vehiculos.Auto(id, marca, modelo, precio, cantidadDePuertas);
-            // console.log("Auto creado");
         }
         else {
             var radioValue = $("input[name='es4x4']:checked").val();
@@ -23,24 +23,33 @@ var Vehiculos;
             else
                 cuatroXcuatro = false;
             vehiculo = new Vehiculos.Camioneta(id, marca, modelo, precio, cuatroXcuatro);
-            // console.log("Camioneta creada");
         }
-        // if wachin isinstanceof para saber de quetipo es
-        CargarTabla();
         lista.push(vehiculo);
+        CargarTabla();
         console.log(lista);
-        // let nombreTd = document.createTextNode(vehiculo.getNombre());
-        // let apellidoTd = document.createTextNode(vehiculo.getApellido());
-        // $("#botonAlumno").on("click",vehiculo.Saludar);
     }
     Vehiculos.agregar = agregar;
     function InicializarBotones() {
         $("#selectTipo").change(CambiarTipoIdentificador);
         $("#btnSubmit").click(agregar);
         $("#esCamioneta").hide();
+        $("#formulario").hide();
+        formDisplayed = false;
+        $("#btnMostrarForm").click(MostrarForm);
         CargarTabla();
     }
     Vehiculos.InicializarBotones = InicializarBotones;
+    function MostrarForm() {
+        if (!formDisplayed) {
+            formDisplayed = true;
+            $("#formulario").show();
+        }
+        else {
+            formDisplayed = false;
+            $("#formulario").hide();
+        }
+    }
+    Vehiculos.MostrarForm = MostrarForm;
     function calcularID() {
         if (lista.length != 0) {
             var max = lista.reduce(function (prev, current) {
@@ -53,6 +62,7 @@ var Vehiculos;
     function CargarTabla() {
         $("#divListaVehiculos").html("");
         var tablaVehiculos = document.createElement("table");
+        tablaVehiculos.setAttribute("class", "table table-stripped");
         $("#divListaVehiculos").append(tablaVehiculos);
         var headerTabla = document.createElement("thead");
         var bodyTabla = document.createElement("tbody");
@@ -98,7 +108,7 @@ var Vehiculos;
                 var auto = void 0;
                 auto = vehiculo;
                 td = document.createElement("td");
-                td.innerText = String(auto.getCantidadPuertas);
+                td.innerText = String(auto.getCantidadPuertas());
                 tableRow.appendChild(td);
             }
             else if (vehiculo instanceof Vehiculos.Camioneta) {

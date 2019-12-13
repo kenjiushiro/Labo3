@@ -3,7 +3,7 @@ namespace Vehiculos{
     
     console.log("asd");
     var lista:Array<Vehiculo> = new Array<Vehiculo>();
-    
+    var formDisplayed:boolean;
     
     export function agregar()
     {
@@ -15,28 +15,24 @@ namespace Vehiculos{
         let cantidadDePuertas:number;
         let cuatroXcuatro:boolean;
 
-        if($("#selectTipo").val() == 1){
-            cantidadDePuertas = Number($("#txtCantPuertas"));
+        if($("#selectTipo").val() == 1)
+        {
+            cantidadDePuertas = Number($("#txtCantPuertas").val());
             vehiculo = new Auto(id,marca,modelo,precio,cantidadDePuertas);
-            // console.log("Auto creado");
         }
-        else{
-            let radioValue = $("input[name='es4x4']:checked"). val();
+        else
+        {
+            let radioValue = $("input[name='es4x4']:checked").val();
             if(radioValue == "true")
                 cuatroXcuatro = true;
             else
                 cuatroXcuatro = false;
 
             vehiculo = new Camioneta(id,marca,modelo,precio,cuatroXcuatro);
-            // console.log("Camioneta creada");
         }
-        // if wachin isinstanceof para saber de quetipo es
-        CargarTabla();
         lista.push(vehiculo);
+        CargarTabla();
         console.log(lista);
-        // let nombreTd = document.createTextNode(vehiculo.getNombre());
-        // let apellidoTd = document.createTextNode(vehiculo.getApellido());
-        // $("#botonAlumno").on("click",vehiculo.Saludar);
     }
     
     export function InicializarBotones()
@@ -44,7 +40,24 @@ namespace Vehiculos{
         $("#selectTipo").change(CambiarTipoIdentificador);
         $("#btnSubmit").click(agregar);
         $("#esCamioneta").hide();
+        $("#formulario").hide();
+        formDisplayed = false;
+        $("#btnMostrarForm").click(MostrarForm);
         CargarTabla();
+    }
+
+    export function MostrarForm()
+    {
+        if(!formDisplayed)
+        {
+            formDisplayed = true;
+            $("#formulario").show();
+        }
+        else
+        {
+            formDisplayed = false;
+            $("#formulario").hide();
+        }
     }
 
     function calcularID():number
@@ -64,6 +77,7 @@ namespace Vehiculos{
     {   
         $("#divListaVehiculos").html("");
         let tablaVehiculos =document.createElement("table");
+        tablaVehiculos.setAttribute("class","table table-stripped");
         $("#divListaVehiculos").append(tablaVehiculos);
         let headerTabla = document.createElement("thead");
         let bodyTabla = document.createElement("tbody");
@@ -116,7 +130,7 @@ namespace Vehiculos{
                 let auto:Auto;
                 auto = vehiculo;
                 td = document.createElement("td");
-                td.innerText = String(auto.getCantidadPuertas);
+                td.innerText = String(auto.getCantidadPuertas());
                 tableRow.appendChild(td);
             }
             else if(vehiculo instanceof Camioneta)
@@ -126,18 +140,14 @@ namespace Vehiculos{
                 td = document.createElement("td");
                 td.innerText = "";
                 tableRow.appendChild(td);
-
                 td = document.createElement("td");
                 td.innerText = String(camioneta.getCuatroXcuatro());
                 tableRow.appendChild(td);
             }
-
-
           }); 
-
-
         console.log(lista);
     }
+
     export function Calcular()
     {
         let sumatoria:number  = lista.reduce(
