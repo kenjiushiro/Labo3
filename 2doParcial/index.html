@@ -20,58 +20,82 @@
         ABM Personas
     </h1>
     <div class="container">
-        <button id="btnMostrarForm">Mostrar form</button>
-        <div id="formulario" class="position-fixed bg-dark text-white p-4 rounded border border-primary">
+        <div class="row">
+            <button id="btnMostrarForm" class="mx-auto">Mostrar form</button>
+            <button id="btnMostrarFiltros" class="mx-auto">Mostrar filtros</button>
+        </div>
+        <div class="row">
+            <div id="formulario" class="position-relative bg-dark text-white p-4 rounded border border-primary mx-auto">
+                <h3>Formulario</h3>
+                <div class="form-group row">
+                    <label for="txtMarca" class="col-lg-3 col-form-label">Marca:</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control border-3 border-secondary" id="txtMarca">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtModelo" class="col-lg-3 col-form-label">Modelo:</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control border-3 border-secondary" id="txtModelo">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtPrecio" class="col-lg-3 col-form-label">Precio:</label>
+                    <div class="col-lg-9">
+                        <input type="number" class="form-control border-3 border-secondary" id="txtPrecio">
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="selectTipo" class="col-lg-3 col-form-label">Seleccionar tipo:</label>
+                    <div class="col-lg-9">
+                        <select name="tipoVehiculo" id="selectTipo"  class="form-control border-3 border-secondary">
+                            <option value=1>Auto</option>
+                            <option value=2>Camioneta</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="esAuto">
+                    <label id="lblCantPuertas" for="txtCantPuertas" class="col-lg-3 col-form-label">Cantidad de puertas:</label>
+                    <input type="number" class="form-control border-3 border-secondary" id="txtCantPuertas">
+                </div>
+                <div id="esCamioneta">
+                    <label id="radio4x4" for="es4x4" class="col-lg-3 col-form-label">Es Cuatro por cuatro </label>
+                    <div class="row justify-content-around">
+                        <div>
+                            <input type="radio" name="es4x4" value="true">Si<br>
+                        </div>
+                        <div>
+                            <input type="radio" name="es4x4" value="false">No<br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="offset-lg-3 col-lg-9">
+                        <button class="btn btn-default" id="btnSubmit" type="btnSubmit">Enviar</button>
+                    </div>
+                </div>
 
-            <div class="form-group row">
-                <label for="txtMarca" class="col-lg-3 col-form-label">Marca:</label>
-                <div class="col-lg-9">
-                    <input type="text" class="form-control" id="txtMarca">
-                </div>
+
             </div>
-            <div class="form-group row">
-                <label for="txtModelo" class="col-lg-3 col-form-label">Modelo:</label>
-                <div class="col-lg-9">
-                    <input type="text" class="form-control" id="txtModelo">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="txtPrecio" class="col-lg-3 col-form-label">Precio:</label>
-                <div class="col-lg-9">
-                    <input type="number" class="form-control" id="txtPrecio">
-                </div>
-            </div>
-            
-            <div class="form-group row">
-                <label for="selectTipo" class="col-lg-3 col-form-label">Seleccionar tipo:</label>
-                <div class="col-lg-9">
-                    <select name="tipoVehiculo" id="selectTipo"  class="form-control">
-                        <option value=1>Auto</option>
-                        <option value=2>Camioneta</option>
-                    </select>
-                </div>
-            </div>
-            <div id="esAuto">
-                <label id="lblCantPuertas" for="txtCantPuertas" class="col-lg-3 col-form-label">Cantidad de puertas:</label>
-                <input type="number" class="form-control" id="txtCantPuertas">
-            </div>
-            <div id="esCamioneta">
-                <label id="radio4x4" for="es4x4" class="col-lg-3 col-form-label">Es Cuatro por cuatro </label>
-                <div class="row justify-content-around">
-                    <div>
-                        <input type="radio" name="es4x4" value="true">Si<br>
-                    </div>
-                    <div>
-                        <input type="radio" name="es4x4" value="false">No<br>
+            <div id="formFiltros" class="position-relative bg-dark text-white p-4 rounded border border-primary mx-auto">
+                <h3>Filtros</h3>
+
+                <div class="form-group row">
+                    <label for="selectFiltro1" class="col-lg-3 col-form-label">Filtro 1:</label>
+                    <div class="col-lg-9">
+                        <select name="tipoVehiculo" id="selectFiltro1"  class="form-control">
+                            <option value=1>Auto</option>
+                            <option value=2>Camioneta</option>
+                        </select>
                     </div>
                 </div>
+
+
+
+
+                <button class="btn btn-default" id="btnFiltrar" type="btnFiltrar">Filtrar</button>
             </div>
-            <div class="row">
-                <div class="offset-lg-3 col-lg-9">
-                    <button class="btn btn-default" id="btnSubmit" type="btnSubmit">Enviar</button>
-                </div>
-            </div>
-            
         </div>
         <div class="col-lg-9" id="divListaVehiculos">
             

@@ -4,6 +4,7 @@ var Vehiculos;
     console.log("asd");
     var lista = new Array();
     var formDisplayed;
+    var filtrosDisplayed;
     function agregar() {
         var id = calcularID();
         var marca = String($("#txtMarca").val());
@@ -24,9 +25,11 @@ var Vehiculos;
                 cuatroXcuatro = false;
             vehiculo = new Vehiculos.Camioneta(id, marca, modelo, precio, cuatroXcuatro);
         }
-        lista.push(vehiculo);
-        CargarTabla();
-        console.log(lista);
+        if (ValidarPuertas()) {
+            lista.push(vehiculo);
+            CargarTabla();
+            console.log(lista);
+        }
     }
     Vehiculos.agregar = agregar;
     function InicializarBotones() {
@@ -34,11 +37,35 @@ var Vehiculos;
         $("#btnSubmit").click(agregar);
         $("#esCamioneta").hide();
         $("#formulario").hide();
+        $("#formFiltros").hide();
         formDisplayed = false;
         $("#btnMostrarForm").click(MostrarForm);
+        $("#btnMostrarFiltros").click(MostrarFiltros);
         CargarTabla();
     }
     Vehiculos.InicializarBotones = InicializarBotones;
+    function ValidarPuertas() {
+        if ($("#txtCantPuertas").val() > 0 && $("#txtCantPuertas").val() < 6) {
+            $("#txtCantPuertas").addClass("border-secondary");
+            $("#txtCantPuertas").removeClass("border-danger");
+            return true;
+        }
+        $("#txtCantPuertas").removeClass("border-secondary");
+        $("#txtCantPuertas").addClass("border-danger");
+        return false;
+    }
+    Vehiculos.ValidarPuertas = ValidarPuertas;
+    function MostrarFiltros() {
+        if (!filtrosDisplayed) {
+            filtrosDisplayed = true;
+            $("#formFiltros").show();
+        }
+        else {
+            filtrosDisplayed = false;
+            $("#formFiltros").hide();
+        }
+    }
+    Vehiculos.MostrarFiltros = MostrarFiltros;
     function MostrarForm() {
         if (!formDisplayed) {
             formDisplayed = true;
@@ -59,6 +86,9 @@ var Vehiculos;
         }
         return 0;
     }
+    function Filtrar() {
+    }
+    Vehiculos.Filtrar = Filtrar;
     function CargarTabla() {
         $("#divListaVehiculos").html("");
         var tablaVehiculos = document.createElement("table");

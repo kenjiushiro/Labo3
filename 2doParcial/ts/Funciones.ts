@@ -4,7 +4,8 @@ namespace Vehiculos{
     console.log("asd");
     var lista:Array<Vehiculo> = new Array<Vehiculo>();
     var formDisplayed:boolean;
-    
+    var filtrosDisplayed:boolean;
+
     export function agregar()
     {
         let id = calcularID();
@@ -30,9 +31,13 @@ namespace Vehiculos{
 
             vehiculo = new Camioneta(id,marca,modelo,precio,cuatroXcuatro);
         }
-        lista.push(vehiculo);
-        CargarTabla();
-        console.log(lista);
+        if(ValidarPuertas())
+        {
+            lista.push(vehiculo);
+            CargarTabla();
+            console.log(lista);
+        }
+
     }
     
     export function InicializarBotones()
@@ -41,9 +46,39 @@ namespace Vehiculos{
         $("#btnSubmit").click(agregar);
         $("#esCamioneta").hide();
         $("#formulario").hide();
+        $("#formFiltros").hide();
         formDisplayed = false;
         $("#btnMostrarForm").click(MostrarForm);
+        $("#btnMostrarFiltros").click(MostrarFiltros);
         CargarTabla();
+    }
+
+    export function ValidarPuertas():boolean
+    {
+        if ($("#txtCantPuertas").val() > 0 && $("#txtCantPuertas").val() < 6 )
+        {
+            $("#txtCantPuertas").addClass("border-secondary");
+            $("#txtCantPuertas").removeClass("border-danger");
+            return true;
+        }
+        
+        $("#txtCantPuertas").removeClass("border-secondary");
+        $("#txtCantPuertas").addClass("border-danger");
+        return false;
+    }
+
+    export function MostrarFiltros()
+    {
+        if(!filtrosDisplayed)
+        {
+            filtrosDisplayed = true;
+            $("#formFiltros").show();
+        }
+        else
+        {
+            filtrosDisplayed = false;
+            $("#formFiltros").hide();
+        }
     }
 
     export function MostrarForm()
@@ -72,7 +107,18 @@ namespace Vehiculos{
         }
         return 0;
     }
+    export function Filtrar()
+    {
 
+
+
+
+
+    }
+
+
+
+    
     export function CargarTabla()
     {   
         $("#divListaVehiculos").html("");
