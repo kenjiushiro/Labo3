@@ -25,6 +25,8 @@ namespace Personas
         $("#btnMostrarFiltros").click(MostrarFiltros);
         $("#btnCancelar").click(CancelarModificar);
         $("#btnModificar").click(ModificarItem);
+        $("#btnFiltrar").click(Filtrar);
+        $("#btnPromedioEdad").click(PromedioEdadPorHorario);
         
         MostrarEmpleados();
     }
@@ -130,16 +132,7 @@ namespace Personas
         }
     }
 
-      export function Filtrar()
-    {
-
-
-
-
-
-    }
-
-
+  
 
     
     export function MostrarEmpleados()
@@ -147,6 +140,109 @@ namespace Personas
         CargarLista();
         CargarListaFiltrada();
     }
+
+    export function Filtrar()
+    {
+
+        let valSelectHorario:number;
+        let horario:string;
+
+        valSelectHorario = Number($("#selectFiltroHorario").val());
+
+        if(valSelectHorario == 1)
+            horario = "Mañana";
+        else if(valSelectHorario == 2)
+            horario = "Tarde";
+        else
+            horario = "Noche";
+
+
+        listaFiltrada = lista.filter(function (empleado) {
+            if(empleado instanceof Empleado)
+            {
+                return empleado.getHorario() == horario;
+            }
+          });
+        CargarListaFiltrada();
+    }
+
+    export function PromedioEdadPorHorario()
+    {
+        let totalEdad = lista.reduce(function (accumulator, empleado) {
+            if(empleado instanceof Empleado)
+            {
+                return accumulator + empleado.getEdad();
+            }
+        }, 0);
+        alert(totalEdad);
+    }
+
+
+    export function CargarListaFiltrada()
+    {
+        $("#divListaFiltrada").html("");
+        let tablaEmpleados =document.createElement("table");
+        tablaEmpleados.setAttribute("class","table table-stripped");
+        $("#divListaFiltrada").append(tablaEmpleados);
+        let headerTabla = document.createElement("thead");
+        let bodyTabla = document.createElement("tbody");
+        let tableRow = document.createElement("tr");
+ 
+        let td = document.createElement("td");
+        td.innerText = "Nombre";
+        tableRow.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = "Apellido";
+        tableRow.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = "Edad";
+        tableRow.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = "Legajo";
+        tableRow.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerText = "Horario";
+        tableRow.appendChild(td);
+
+        tablaEmpleados.appendChild(headerTabla);
+        tablaEmpleados.appendChild(bodyTabla);
+        headerTabla.appendChild(tableRow);
+        
+        listaFiltrada.forEach(function (empleado) {
+
+            tableRow = document.createElement("tr");
+            bodyTabla.appendChild(tableRow);
+
+            td = document.createElement("td");
+            td.innerText = String(empleado.getNombre());
+            tableRow.appendChild(td);
+
+            td = document.createElement("td");
+            td.innerText = String(empleado.getApellido());
+            tableRow.appendChild(td);
+
+            td = document.createElement("td");
+            td.innerText = String(empleado.getEdad());
+            tableRow.appendChild(td);
+            if (empleado instanceof Empleado)
+            {
+                
+                td = document.createElement("td");
+                td.innerText = String(empleado.getLegajo());
+                tableRow.appendChild(td);
+                
+                td = document.createElement("td");
+                td.innerText = String(empleado.getHorario());
+                tableRow.appendChild(td);
+
+            }
+        }); 
+    }
+
 
     export function CargarLista()
     {
@@ -291,66 +387,6 @@ namespace Personas
         });
 
         CargarLista();
-    }
-
-    export function CargarListaFiltrada()
-    {
-        $("#divListaFiltrada").html("");
-        let tablaEmpleadosFiltrada =document.createElement("table");
-        tablaEmpleadosFiltrada.setAttribute("class","table table-stripped");
-        $("#divListaFiltrada").append(tablaEmpleadosFiltrada);
-        let headerTabla = document.createElement("thead");
-        let bodyTabla = document.createElement("tbody");
-        let tableRow = document.createElement("tr");
-        let td = document.createElement("td");
-
-        td.innerText = "Nombre";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Apellido";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Edad";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Legajo";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Horario";
-        tableRow.appendChild(td);
-
-        tablaEmpleadosFiltrada.appendChild(headerTabla);
-        tablaEmpleadosFiltrada.appendChild(bodyTabla);
-        headerTabla.appendChild(tableRow);
-        
-        listaFiltrada.forEach(function (empleado) {
-
-            tableRow = document.createElement("tr");
-            bodyTabla.appendChild(tableRow);
-
-            td = document.createElement("td");
-            td.innerText = String(empleado.getNombre());
-            tableRow.appendChild(td);
-
-            td = document.createElement("td");
-            td.innerText = String(empleado.getApellido());
-            tableRow.appendChild(td);
-
-            td = document.createElement("td");
-            td.innerText = String(empleado.getEdad());
-            tableRow.appendChild(td);
-            if (empleado instanceof Empleado)
-            {
-                td = document.createElement("td");
-                td.innerText = String(empleado.getLegajo());
-                tableRow.appendChild(td);
-                
-                td = document.createElement("td");
-                td.innerText = String(empleado.getHorario());
-                tableRow.appendChild(td);
-            }
-
-          }); 
     }
 
     export function Calcular()

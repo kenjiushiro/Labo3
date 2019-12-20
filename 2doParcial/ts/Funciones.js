@@ -18,6 +18,8 @@ var Personas;
         $("#btnMostrarFiltros").click(MostrarFiltros);
         $("#btnCancelar").click(CancelarModificar);
         $("#btnModificar").click(ModificarItem);
+        $("#btnFiltrar").click(Filtrar);
+        $("#btnPromedioEdad").click(PromedioEdadPorHorario);
         MostrarEmpleados();
     }
     Personas.InicializarBotones = InicializarBotones;
@@ -99,14 +101,87 @@ var Personas;
         }
     }
     Personas.MostrarForm = MostrarForm;
-    function Filtrar() {
-    }
-    Personas.Filtrar = Filtrar;
     function MostrarEmpleados() {
         CargarLista();
         CargarListaFiltrada();
     }
     Personas.MostrarEmpleados = MostrarEmpleados;
+    function Filtrar() {
+        var valSelectHorario;
+        var horario;
+        valSelectHorario = Number($("#selectFiltroHorario").val());
+        if (valSelectHorario == 1)
+            horario = "Mañana";
+        else if (valSelectHorario == 2)
+            horario = "Tarde";
+        else
+            horario = "Noche";
+        listaFiltrada = lista.filter(function (empleado) {
+            if (empleado instanceof Personas.Empleado) {
+                return empleado.getHorario() == horario;
+            }
+        });
+        CargarListaFiltrada();
+    }
+    Personas.Filtrar = Filtrar;
+    function PromedioEdadPorHorario() {
+        var totalEdad = lista.reduce(function (accumulator, empleado) {
+            if (empleado instanceof Personas.Empleado) {
+                return accumulator + empleado.getEdad();
+            }
+        }, 0);
+        alert(totalEdad);
+    }
+    Personas.PromedioEdadPorHorario = PromedioEdadPorHorario;
+    function CargarListaFiltrada() {
+        $("#divListaFiltrada").html("");
+        var tablaEmpleados = document.createElement("table");
+        tablaEmpleados.setAttribute("class", "table table-stripped");
+        $("#divListaFiltrada").append(tablaEmpleados);
+        var headerTabla = document.createElement("thead");
+        var bodyTabla = document.createElement("tbody");
+        var tableRow = document.createElement("tr");
+        var td = document.createElement("td");
+        td.innerText = "Nombre";
+        tableRow.appendChild(td);
+        td = document.createElement("td");
+        td.innerText = "Apellido";
+        tableRow.appendChild(td);
+        td = document.createElement("td");
+        td.innerText = "Edad";
+        tableRow.appendChild(td);
+        td = document.createElement("td");
+        td.innerText = "Legajo";
+        tableRow.appendChild(td);
+        td = document.createElement("td");
+        td.innerText = "Horario";
+        tableRow.appendChild(td);
+        tablaEmpleados.appendChild(headerTabla);
+        tablaEmpleados.appendChild(bodyTabla);
+        headerTabla.appendChild(tableRow);
+        listaFiltrada.forEach(function (empleado) {
+            tableRow = document.createElement("tr");
+            bodyTabla.appendChild(tableRow);
+            td = document.createElement("td");
+            td.innerText = String(empleado.getNombre());
+            tableRow.appendChild(td);
+            td = document.createElement("td");
+            td.innerText = String(empleado.getApellido());
+            tableRow.appendChild(td);
+            td = document.createElement("td");
+            td.innerText = String(empleado.getEdad());
+            tableRow.appendChild(td);
+            if (empleado instanceof Personas.Empleado) {
+                td = document.createElement("td");
+                td.innerText = String(empleado.getLegajo());
+                tableRow.appendChild(td);
+                td = document.createElement("td");
+                td.innerText = String(empleado.getHorario());
+                tableRow.appendChild(td);
+            }
+        });
+    }
+    Personas.CargarListaFiltrada = CargarListaFiltrada;
     function CargarLista() {
         $("#divLista").html("");
         var tablaEmpleados = document.createElement("table");
@@ -217,55 +292,6 @@ var Personas;
         CargarLista();
     }
     Personas.Borrar = Borrar;
-    function CargarListaFiltrada() {
-        $("#divListaFiltrada").html("");
-        var tablaEmpleadosFiltrada = document.createElement("table");
-        tablaEmpleadosFiltrada.setAttribute("class", "table table-stripped");
-        $("#divListaFiltrada").append(tablaEmpleadosFiltrada);
-        var headerTabla = document.createElement("thead");
-        var bodyTabla = document.createElement("tbody");
-        var tableRow = document.createElement("tr");
-        var td = document.createElement("td");
-        td.innerText = "Nombre";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Apellido";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Edad";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Legajo";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Horario";
-        tableRow.appendChild(td);
-        tablaEmpleadosFiltrada.appendChild(headerTabla);
-        tablaEmpleadosFiltrada.appendChild(bodyTabla);
-        headerTabla.appendChild(tableRow);
-        listaFiltrada.forEach(function (empleado) {
-            tableRow = document.createElement("tr");
-            bodyTabla.appendChild(tableRow);
-            td = document.createElement("td");
-            td.innerText = String(empleado.getNombre());
-            tableRow.appendChild(td);
-            td = document.createElement("td");
-            td.innerText = String(empleado.getApellido());
-            tableRow.appendChild(td);
-            td = document.createElement("td");
-            td.innerText = String(empleado.getEdad());
-            tableRow.appendChild(td);
-            if (empleado instanceof Personas.Empleado) {
-                td = document.createElement("td");
-                td.innerText = String(empleado.getLegajo());
-                tableRow.appendChild(td);
-                td = document.createElement("td");
-                td.innerText = String(empleado.getHorario());
-                tableRow.appendChild(td);
-            }
-        });
-    }
-    Personas.CargarListaFiltrada = CargarListaFiltrada;
     function Calcular() {
         var sumatoria = lista.reduce(function (total, item) {
             return total++;
