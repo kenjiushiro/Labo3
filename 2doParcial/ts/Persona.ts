@@ -1,29 +1,29 @@
 namespace Personas{
 
     export abstract class Persona{
-        nombre:string;
-        apellido:string;
-        edad:number;
+        Nombre:string;
+        Apellido:string;
+        Edad:number;
     
         constructor(nombre:string,apellido:string,edad:number)
         {
-            this.nombre =nombre;
-            this.apellido = apellido;
-            this.edad =edad;
+            this.Nombre =nombre;
+            this.Apellido = apellido;
+            this.Edad =edad;
         }
 
-        personaToJson(){
-
+        personaToJson():string{
+            return JSON.stringify(this);
         }
 
         getNombre(){
-            return this.nombre;
+            return this.Nombre;
         }
         getApellido(){
-            return this.apellido;
+            return this.Apellido;
         }
         getEdad(){
-            return this.edad;
+            return this.Edad;
         }
 
         

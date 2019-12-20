@@ -22,39 +22,55 @@
         <div class="row">
             <button id="btnMostrarForm" class="mx-auto">Mostrar form</button>
             <button id="btnMostrarFiltros" class="mx-auto">Mostrar filtros</button>
-            <button id="btnPromedioEdad" class="mx-auto">Promedio Error</button>
+            <div>
+                <button id="btnPromedioEdad" class="mx-auto">Promedio Edad</button>
+                <div class="col-lg-9">
+                    <select name="selectHorario" id="selectHorarioPromedio"  class="form-control border-3 border-secondary">
+                        <option value=1>Mañana</option>
+                        <option value=2>Tarde</option>
+                        <option value=3>Noche</option>
+                    </select>
+                </div>
+                <input type="text" id="outputPromedio" value ="0">
+            </div>
+
         </div>
         <div class="row">
             <div id="formulario" class="position-relative bg-dark text-white p-4 rounded border border-primary mx-auto">
                 <h3>Formulario</h3>
 
                 <div class="form-group row">
-
                     <label for="txtNombre" class="col-lg-3 col-form-label">Nombre:</label>
+                    <input type="checkbox" id="checkNombre" checked>
                     <div class="col-lg-9">
                         <input type="text" class="form-control border-3 border-secondary" id="txtNombre">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="txtApellido" class="col-lg-3 col-form-label">Apellido:</label>
+                    <input type="checkbox" id="checkApellido" checked>
                     <div class="col-lg-9">
                         <input type="text" class="form-control border-3 border-secondary" id="txtApellido">
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <label for="txtEdad" class="col-lg-3 col-form-label">Edad:</label>
+                    <input type="checkbox" id="checkEdad" checked>
                     <div class="col-lg-9">
                         <input type="number" class="form-control border-3 border-secondary" id="txtEdad">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="txtLegajo" class="col-lg-3 col-form-label">Legajo:</label>
+                    <input type="checkbox" id="checkLegajo" checked>
                     <div class="col-lg-9">
                         <input type="number" class="form-control border-3 border-secondary" id="txtLegajo">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="selectHorario" class="col-lg-3 col-form-label">Horario:</label>
+                    <input type="checkbox" id="checkHorario" checked>
                     <div class="col-lg-9">
                         <select name="selectHorario" id="selectHorario"  class="form-control border-3 border-secondary">
                             <option value=1>Mañana</option>

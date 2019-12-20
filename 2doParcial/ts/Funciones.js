@@ -4,6 +4,8 @@ var Personas;
     var lista = new Array();
     var listaFiltrada = new Array();
     var currentLegajo;
+    var listaCampos = ["Nombre", "Apellido", "Edad", "Legajo", "Horario"];
+    var listaCamposFiltrada;
     var formDisplayed;
     var formModificarDisplayed;
     var filtrosDisplayed;
@@ -18,11 +20,22 @@ var Personas;
         $("#btnMostrarFiltros").click(MostrarFiltros);
         $("#btnCancelar").click(CancelarModificar);
         $("#btnModificar").click(ModificarItem);
-        $("#btnFiltrar").click(Filtrar);
+        $("#btnFiltrar").click(filtrarPorHorario);
         $("#btnPromedioEdad").click(PromedioEdadPorHorario);
+        listaCampos.forEach(function (campos) {
+            $("#check" + campos).change(FiltrarListaCampos);
+        });
+        FiltrarListaCampos();
         MostrarEmpleados();
     }
     Personas.InicializarBotones = InicializarBotones;
+    function FiltrarListaCampos() {
+        listaCamposFiltrada = listaCampos.filter(function (campo) {
+            return $("#check" + campo).is(":checked");
+        });
+        MostrarEmpleados();
+    }
+    Personas.FiltrarListaCampos = FiltrarListaCampos;
     function CancelarModificar() {
         $("#formModificar").hide();
     }
@@ -106,7 +119,7 @@ var Personas;
         CargarListaFiltrada();
     }
     Personas.MostrarEmpleados = MostrarEmpleados;
-    function Filtrar() {
+    function filtrarPorHorario() {
         var valSelectHorario;
         var horario;
         valSelectHorario = Number($("#selectFiltroHorario").val());
@@ -123,14 +136,28 @@ var Personas;
         });
         CargarListaFiltrada();
     }
-    Personas.Filtrar = Filtrar;
+    Personas.filtrarPorHorario = filtrarPorHorario;
     function PromedioEdadPorHorario() {
+        var cantidad;
+        var promedio;
+        var filtro;
+        if ($("#selectHorarioPromedio").val() == 1)
+            filtro = "Mañana";
+        else if ($("#selectHorarioPromedio").val() == 2)
+            filtro = "Tarde";
+        else
+            filtro = "Noche";
+        cantidad = 0;
         var totalEdad = lista.reduce(function (accumulator, empleado) {
-            if (empleado instanceof Personas.Empleado) {
+            if (empleado instanceof Personas.Empleado && empleado.getHorario() == filtro) {
+                cantidad++;
                 return accumulator + empleado.getEdad();
             }
+            else
+                return accumulator;
         }, 0);
-        alert(totalEdad);
+        promedio = totalEdad / cantidad;
+        $("#outputPromedio").val(promedio);
     }
     Personas.PromedioEdadPorHorario = PromedioEdadPorHorario;
     function CargarListaFiltrada() {
@@ -141,43 +168,24 @@ var Personas;
         var headerTabla = document.createElement("thead");
         var bodyTabla = document.createElement("tbody");
         var tableRow = document.createElement("tr");
-        var td = document.createElement("td");
-        td.innerText = "Nombre";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Apellido";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Edad";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Legajo";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Horario";
-        tableRow.appendChild(td);
+        var td;
+        listaCamposFiltrada.forEach(function (campo) {
+            td = document.createElement("td");
+            td.innerText = campo;
+            tableRow.appendChild(td);
+        });
         tablaEmpleados.appendChild(headerTabla);
         tablaEmpleados.appendChild(bodyTabla);
         headerTabla.appendChild(tableRow);
         listaFiltrada.forEach(function (empleado) {
             tableRow = document.createElement("tr");
             bodyTabla.appendChild(tableRow);
-            td = document.createElement("td");
-            td.innerText = String(empleado.getNombre());
-            tableRow.appendChild(td);
-            td = document.createElement("td");
-            td.innerText = String(empleado.getApellido());
-            tableRow.appendChild(td);
-            td = document.createElement("td");
-            td.innerText = String(empleado.getEdad());
-            tableRow.appendChild(td);
             if (empleado instanceof Personas.Empleado) {
-                td = document.createElement("td");
-                td.innerText = String(empleado.getLegajo());
-                tableRow.appendChild(td);
-                td = document.createElement("td");
-                td.innerText = String(empleado.getHorario());
-                tableRow.appendChild(td);
+                listaCamposFiltrada.forEach(function (campo) {
+                    td = document.createElement("td");
+                    td.innerText = JSON.parse(empleado.empleadoToJson())[campo];
+                    tableRow.appendChild(td);
+                });
             }
         });
     }
@@ -192,21 +200,12 @@ var Personas;
         var tableRow = document.createElement("tr");
         var b;
         var m;
-        var td = document.createElement("td");
-        td.innerText = "Nombre";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Apellido";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Edad";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Legajo";
-        tableRow.appendChild(td);
-        td = document.createElement("td");
-        td.innerText = "Horario";
-        tableRow.appendChild(td);
+        var td;
+        listaCamposFiltrada.forEach(function (campo) {
+            td = document.createElement("td");
+            td.innerText = campo;
+            tableRow.appendChild(td);
+        });
         td = document.createElement("td");
         td.innerText = "Acciones";
         tableRow.appendChild(td);
@@ -214,34 +213,26 @@ var Personas;
         tablaEmpleados.appendChild(bodyTabla);
         headerTabla.appendChild(tableRow);
         lista.forEach(function (empleado) {
-            tableRow = document.createElement("tr");
-            bodyTabla.appendChild(tableRow);
-            td = document.createElement("td");
-            td.innerText = String(empleado.getNombre());
-            tableRow.appendChild(td);
-            td = document.createElement("td");
-            td.innerText = String(empleado.getApellido());
-            tableRow.appendChild(td);
-            td = document.createElement("td");
-            td.innerText = String(empleado.getEdad());
-            tableRow.appendChild(td);
             if (empleado instanceof Personas.Empleado) {
-                td = document.createElement("td");
-                td.innerText = String(empleado.getLegajo());
-                tableRow.appendChild(td);
-                td = document.createElement("td");
-                td.innerText = String(empleado.getHorario());
-                tableRow.appendChild(td);
+                tableRow = document.createElement("tr");
+                bodyTabla.appendChild(tableRow);
+                listaCamposFiltrada.forEach(function (campo) {
+                    td = document.createElement("td");
+                    td.innerText = JSON.parse(empleado.empleadoToJson())[campo];
+                    tableRow.appendChild(td);
+                });
                 td = document.createElement("td");
                 td.setAttribute("class", "column");
                 b = document.createElement("a");
                 b.setAttribute("id", String(empleado.getLegajo()));
+                b.setAttribute("class", "btn");
                 b.innerHTML = "Borrar";
-                b.addEventListener("click", Borrar);
+                b.addEventListener("click", eliminarEmpleado);
                 m = document.createElement("a");
                 m.setAttribute("id", String(empleado.getLegajo()));
+                m.setAttribute("class", "btn");
                 m.innerHTML = "Modificar";
-                m.addEventListener("click", Modificar);
+                m.addEventListener("click", modificarEmpleado);
                 td.appendChild(b);
                 td.appendChild(m);
                 tableRow.appendChild(td);
@@ -249,9 +240,8 @@ var Personas;
         });
     }
     Personas.CargarLista = CargarLista;
-    function Modificar(e) {
+    function modificarEmpleado(e) {
         var auxEmpleado = new Personas.Empleado("asd", "asd", 2, 2, "asd");
-        // https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
         var empleadoAModificar = lista.reduce(function (retorno, empleado) {
             if (empleado instanceof Personas.Empleado) {
                 if (empleado.getLegajo() == e.target.id) {
@@ -280,18 +270,23 @@ var Personas;
                 $("#formModificar").show();
             }
         }
-        CargarLista();
+        MostrarEmpleados();
     }
-    Personas.Modificar = Modificar;
-    function Borrar(e) {
+    Personas.modificarEmpleado = modificarEmpleado;
+    function eliminarEmpleado(e) {
         lista = lista.filter(function (empleado) {
             if (empleado instanceof Personas.Empleado) {
                 return empleado.getLegajo() != e.target.id;
             }
         });
-        CargarLista();
+        listaFiltrada = listaFiltrada.filter(function (empleado) {
+            if (empleado instanceof Personas.Empleado) {
+                return empleado.getLegajo() != e.target.id;
+            }
+        });
+        MostrarEmpleados();
     }
-    Personas.Borrar = Borrar;
+    Personas.eliminarEmpleado = eliminarEmpleado;
     function Calcular() {
         var sumatoria = lista.reduce(function (total, item) {
             return total++;

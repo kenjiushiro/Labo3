@@ -17,15 +17,18 @@ var Personas;
         __extends(Empleado, _super);
         function Empleado(nombre, apellido, edad, legajo, horario) {
             var _this = _super.call(this, nombre, apellido, edad) || this;
-            _this.legajo = legajo;
-            _this.horario = horario;
+            _this.Legajo = legajo;
+            _this.Horario = horario;
             return _this;
         }
+        Empleado.prototype.empleadoToJson = function () {
+            return JSON.stringify(this);
+        };
         Empleado.prototype.getLegajo = function () {
-            return this.legajo;
+            return this.Legajo;
         };
         Empleado.prototype.getHorario = function () {
-            return this.horario;
+            return this.Horario;
         };
         return Empleado;
     }(Personas.Persona));

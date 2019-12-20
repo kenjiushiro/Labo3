@@ -1,16 +1,18 @@
+
 namespace Personas
 {
     $("document").ready(InicializarBotones);
+
     var lista:Array<Persona> = new Array<Persona>();
     var listaFiltrada:Array<Persona> = new Array<Persona>();
     var currentLegajo:number;
+    var listaCampos:Array<string> = ["Nombre","Apellido","Edad","Legajo","Horario"];
+    var listaCamposFiltrada:Array<string>;
 
     var formDisplayed:boolean;
     var formModificarDisplayed:boolean;
     var filtrosDisplayed:boolean;
     var indexAModificar:number;
-
-
     
     export function InicializarBotones()
     {
@@ -25,9 +27,22 @@ namespace Personas
         $("#btnMostrarFiltros").click(MostrarFiltros);
         $("#btnCancelar").click(CancelarModificar);
         $("#btnModificar").click(ModificarItem);
-        $("#btnFiltrar").click(Filtrar);
+        $("#btnFiltrar").click(filtrarPorHorario);
         $("#btnPromedioEdad").click(PromedioEdadPorHorario);
-        
+
+        listaCampos.forEach(campos => {
+            $("#check" + campos).change(FiltrarListaCampos);
+        });
+        FiltrarListaCampos();
+
+        MostrarEmpleados();
+    }
+
+    export function FiltrarListaCampos()
+    {
+        listaCamposFiltrada = listaCampos.filter(function (campo) {
+        return $("#check" + campo).is(":checked");
+        });
         MostrarEmpleados();
     }
 
@@ -99,6 +114,7 @@ namespace Personas
         $("#txtApellidoModificar").val("");
         $("#txtEdadModificar").val("");
 
+        
         lista[indexAModificar]= e;
         CargarLista();
         CancelarModificar();
@@ -141,7 +157,7 @@ namespace Personas
         CargarListaFiltrada();
     }
 
-    export function Filtrar()
+    export function filtrarPorHorario()
     {
 
         let valSelectHorario:number;
@@ -168,13 +184,32 @@ namespace Personas
 
     export function PromedioEdadPorHorario()
     {
-        let totalEdad = lista.reduce(function (accumulator, empleado) {
-            if(empleado instanceof Empleado)
+        let cantidad:number;
+        let promedio:number;
+        let filtro;
+
+        if ($("#selectHorarioPromedio").val() == 1)
+            filtro = "Mañana";
+        else if($("#selectHorarioPromedio").val() == 2)
+            filtro = "Tarde";
+        else
+            filtro = "Noche";
+
+        cantidad =0;
+
+        let totalEdad:number = lista.reduce(function (accumulator, empleado) {
+            if(empleado instanceof Empleado && empleado.getHorario() == filtro)
             {
+                cantidad++;
                 return accumulator + empleado.getEdad();
             }
+            else
+                return accumulator;
         }, 0);
-        alert(totalEdad);
+
+        promedio = totalEdad/cantidad;
+
+        $("#outputPromedio").val(promedio);
     }
 
 
@@ -187,27 +222,16 @@ namespace Personas
         let headerTabla = document.createElement("thead");
         let bodyTabla = document.createElement("tbody");
         let tableRow = document.createElement("tr");
- 
-        let td = document.createElement("td");
-        td.innerText = "Nombre";
-        tableRow.appendChild(td);
 
-        td = document.createElement("td");
-        td.innerText = "Apellido";
-        tableRow.appendChild(td);
+        let td ;
 
-        td = document.createElement("td");
-        td.innerText = "Edad";
-        tableRow.appendChild(td);
+        listaCamposFiltrada.forEach(campo => {
+            td =  document.createElement("td");
+            td.innerText = campo;
+            tableRow.appendChild(td);
+        });
 
-        td = document.createElement("td");
-        td.innerText = "Legajo";
-        tableRow.appendChild(td);
-
-        td = document.createElement("td");
-        td.innerText = "Horario";
-        tableRow.appendChild(td);
-
+        
         tablaEmpleados.appendChild(headerTabla);
         tablaEmpleados.appendChild(bodyTabla);
         headerTabla.appendChild(tableRow);
@@ -216,28 +240,13 @@ namespace Personas
 
             tableRow = document.createElement("tr");
             bodyTabla.appendChild(tableRow);
-
-            td = document.createElement("td");
-            td.innerText = String(empleado.getNombre());
-            tableRow.appendChild(td);
-
-            td = document.createElement("td");
-            td.innerText = String(empleado.getApellido());
-            tableRow.appendChild(td);
-
-            td = document.createElement("td");
-            td.innerText = String(empleado.getEdad());
-            tableRow.appendChild(td);
             if (empleado instanceof Empleado)
             {
-                
-                td = document.createElement("td");
-                td.innerText = String(empleado.getLegajo());
-                tableRow.appendChild(td);
-                
-                td = document.createElement("td");
-                td.innerText = String(empleado.getHorario());
-                tableRow.appendChild(td);
+                listaCamposFiltrada.forEach(campo => {
+                    td = document.createElement("td");
+                    td.innerText = JSON.parse(empleado.empleadoToJson())[campo];
+                    tableRow.appendChild(td);
+                });
 
             }
         }); 
@@ -255,26 +264,16 @@ namespace Personas
         let tableRow = document.createElement("tr");
         let b:Element;
         let m:Element;
+        let td;
 
-        let td = document.createElement("td");
-        td.innerText = "Nombre";
-        tableRow.appendChild(td);
+     
 
-        td = document.createElement("td");
-        td.innerText = "Apellido";
-        tableRow.appendChild(td);
+        listaCamposFiltrada.forEach(campo => {
+            td =  document.createElement("td");
+            td.innerText = campo;
+            tableRow.appendChild(td);
+        });
 
-        td = document.createElement("td");
-        td.innerText = "Edad";
-        tableRow.appendChild(td);
-
-        td = document.createElement("td");
-        td.innerText = "Legajo";
-        tableRow.appendChild(td);
-
-        td = document.createElement("td");
-        td.innerText = "Horario";
-        tableRow.appendChild(td);
 
         td = document.createElement("td");
         td.innerText = "Acciones";
@@ -286,43 +285,29 @@ namespace Personas
         
         lista.forEach(function (empleado) {
 
-            tableRow = document.createElement("tr");
-            bodyTabla.appendChild(tableRow);
+            if (empleado instanceof Empleado){
+                tableRow = document.createElement("tr");
+                bodyTabla.appendChild(tableRow);
 
-            td = document.createElement("td");
-            td.innerText = String(empleado.getNombre());
-            tableRow.appendChild(td);
+                listaCamposFiltrada.forEach(campo => {
+                    td = document.createElement("td");
+                    td.innerText = JSON.parse(empleado.empleadoToJson())[campo];
+                    tableRow.appendChild(td);
+                });
 
-            td = document.createElement("td");
-            td.innerText = String(empleado.getApellido());
-            tableRow.appendChild(td);
-
-            td = document.createElement("td");
-            td.innerText = String(empleado.getEdad());
-            tableRow.appendChild(td);
-            if (empleado instanceof Empleado)
-            {
-                
-                td = document.createElement("td");
-                td.innerText = String(empleado.getLegajo());
-                tableRow.appendChild(td);
-                
-                td = document.createElement("td");
-                td.innerText = String(empleado.getHorario());
-                tableRow.appendChild(td);
-
-                
                 td = document.createElement("td");
                 td.setAttribute("class","column");
                 b = document.createElement("a");
                 b.setAttribute("id",String(empleado.getLegajo()));
+                b.setAttribute("class","btn");
                 b.innerHTML = "Borrar";
-                b.addEventListener("click",Borrar);
+                b.addEventListener("click",eliminarEmpleado);
                 
                 m = document.createElement("a");
                 m.setAttribute("id",String(empleado.getLegajo()));
+                m.setAttribute("class","btn");
                 m.innerHTML = "Modificar";
-                m.addEventListener("click",Modificar);
+                m.addEventListener("click",modificarEmpleado);
                 
                 td.appendChild(b);
                 td.appendChild(m);
@@ -332,10 +317,9 @@ namespace Personas
         }); 
     }
 
-    export function Modificar(e)
+    export function modificarEmpleado(e)
     {   
         let auxEmpleado:Empleado = new Empleado("asd","asd",2,2,"asd");
-        // https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
         let empleadoAModificar:Persona = lista.reduce(function(retorno:Empleado,empleado){
             if (empleado instanceof Empleado)
             {
@@ -373,11 +357,10 @@ namespace Personas
                 $("#formModificar").show();
             }
         }
-            
-        CargarLista();
+        MostrarEmpleados();
     }
 
-    export function Borrar(e)
+    export function eliminarEmpleado(e)
     {   
          lista = lista.filter(function(empleado){
             if (empleado instanceof Empleado)
@@ -385,8 +368,15 @@ namespace Personas
                 return empleado.getLegajo() != e.target.id;
             }
         });
+        
+        listaFiltrada = listaFiltrada.filter(function(empleado){
+            if (empleado instanceof Empleado)
+            {
+                return empleado.getLegajo() != e.target.id;
+            }
+        });
 
-        CargarLista();
+        MostrarEmpleados();
     }
 
     export function Calcular()

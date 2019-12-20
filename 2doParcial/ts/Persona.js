@@ -2,20 +2,21 @@ var Personas;
 (function (Personas) {
     var Persona = /** @class */ (function () {
         function Persona(nombre, apellido, edad) {
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.edad = edad;
+            this.Nombre = nombre;
+            this.Apellido = apellido;
+            this.Edad = edad;
         }
         Persona.prototype.personaToJson = function () {
+            return JSON.stringify(this);
         };
         Persona.prototype.getNombre = function () {
-            return this.nombre;
+            return this.Nombre;
         };
         Persona.prototype.getApellido = function () {
-            return this.apellido;
+            return this.Apellido;
         };
         Persona.prototype.getEdad = function () {
-            return this.edad;
+            return this.Edad;
         };
         return Persona;
     }());
