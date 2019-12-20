@@ -33,6 +33,10 @@ var Personas;
             horario = "Noche";
         console.log(nombre, apellido, edad, legajo, horario);
         e = new Personas.Empleado(nombre, apellido, edad, legajo, horario);
+        $("#txtLegajo").val("");
+        $("#txtNombre").val("");
+        $("#txtApellido").val("");
+        $("#txtEdad").val("");
         lista.push(e);
         CargarLista();
         console.log(lista);
@@ -119,24 +123,64 @@ var Personas;
                 td.innerText = String(empleado.getHorario());
                 tableRow.appendChild(td);
                 td = document.createElement("td");
+                td.setAttribute("class", "column");
                 b = document.createElement("a");
                 b.setAttribute("id", String(empleado.getLegajo()));
                 b.innerHTML = "Borrar";
                 b.addEventListener("click", Borrar);
+                m = document.createElement("a");
+                m.setAttribute("id", String(empleado.getLegajo()));
+                m.innerHTML = "Modificar";
+                m.addEventListener("click", Modificar);
                 td.appendChild(b);
+                td.appendChild(m);
                 tableRow.appendChild(td);
             }
         });
     }
     Personas.CargarLista = CargarLista;
-    function Borrar(e) {
-        console.log(e.target.id);
-        lista.forEach(function (empleado, index) {
+    function Modificar(e) {
+        // https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
+        var listaNueva = [];
+        lista.forEach(function (empleado) {
             if (empleado instanceof Personas.Empleado) {
-                if (empleado.getLegajo() === e.target.id)
-                    lista.splice(index, 1);
+                console.log(empleado.getLegajo() + " = " + e.target.id);
+                console.log(empleado.getLegajo() == e.target.id);
+                if (empleado.getLegajo() == e.target.id) {
+                    $("#txtLegajo").val(empleado.getLegajo());
+                    $("#txtNombre").val(empleado.getNombre());
+                    $("#txtApellido").val(empleado.getApellido());
+                    $("#txtEdad").val(empleado.getEdad());
+                    if (empleado.getHorario() == "Mañana")
+                        $("#selectHorario").val(1);
+                    else if (empleado.getHorario() == "Tarde")
+                        $("#selectHorario").val(2);
+                    else
+                        $("#selectHorario").val(3);
+                }
+                else {
+                    listaNueva.push(empleado);
+                }
             }
         });
+        lista = listaNueva;
+        CargarLista();
+    }
+    Personas.Modificar = Modificar;
+    function Borrar(e) {
+        var listaNueva = [];
+        lista.forEach(function (empleado) {
+            if (empleado instanceof Personas.Empleado) {
+                console.log(empleado.getLegajo() + " = " + e.target.id);
+                console.log(empleado.getLegajo() == e.target.id);
+                if (empleado.getLegajo() == e.target.id) {
+                }
+                else {
+                    listaNueva.push(empleado);
+                }
+            }
+        });
+        lista = listaNueva;
         CargarLista();
     }
     Personas.Borrar = Borrar;
