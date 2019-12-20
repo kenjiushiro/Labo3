@@ -6,7 +6,9 @@ namespace Personas
     var currentLegajo:number;
 
     var formDisplayed:boolean;
+    var formModificarDisplayed:boolean;
     var filtrosDisplayed:boolean;
+    var indexAModificar:number;
 
 
     
@@ -15,10 +17,21 @@ namespace Personas
         $("#btnSubmit").click(agregarEmpleado);
         $("#formulario").hide();
         $("#formFiltros").hide();
+        $("#formModificar").hide();
+
         formDisplayed = false;
+
         $("#btnMostrarForm").click(MostrarForm);
         $("#btnMostrarFiltros").click(MostrarFiltros);
+        $("#btnCancelar").click(CancelarModificar);
+        $("#btnModificar").click(ModificarItem);
+        
         MostrarEmpleados();
+    }
+
+    export function CancelarModificar()
+    {
+        $("#formModificar").hide();
     }
 
     export function agregarEmpleado()
@@ -54,6 +67,39 @@ namespace Personas
         CargarLista();
         console.log(lista);
 
+    }
+    export function ModificarItem()
+    {
+        let e:Empleado;
+        let legajo:number = Number($("#txtLegajoModificar").val());
+        let nombre:string = String($("#txtNombreModificar").val());
+        let apellido:string = String($("#txtApellidoModificar").val());
+        let edad:number = Number($("#txtEdadModificar").val());
+
+        let horario:string;
+        let valSelectHorario:number;
+
+        valSelectHorario = Number($("#selectHorarioModificar").val());
+
+        if(valSelectHorario == 1)
+            horario = "Mañana";
+        else if(valSelectHorario == 2)
+            horario = "Tarde";
+        else
+            horario = "Noche";
+
+        console.log(nombre,apellido,edad,legajo,horario)
+        e = new Empleado(nombre,apellido,edad,legajo,horario);
+        
+
+        $("#txtLegajoModificar").val("");
+        $("#txtNombreModificar").val("");
+        $("#txtApellidoModificar").val("");
+        $("#txtEdadModificar").val("");
+
+        lista[indexAModificar]= e;
+        CargarLista();
+        CancelarModificar();
     }
 
     export function MostrarFiltros()
@@ -192,63 +238,58 @@ namespace Personas
 
     export function Modificar(e)
     {   
+        let auxEmpleado:Empleado = new Empleado("asd","asd",2,2,"asd");
         // https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
-        let listaNueva = [];
-        
-        lista.forEach( (empleado) => 
-        {
+        let empleadoAModificar:Persona = lista.reduce(function(retorno:Empleado,empleado){
             if (empleado instanceof Empleado)
-            {   
-                console.log(empleado.getLegajo() + " = " + e.target.id);
-                console.log(empleado.getLegajo() == e.target.id);
-                if(empleado.getLegajo() == e.target.id)
+            {
+                if (empleado.getLegajo() == e.target.id)
                 {
-                    $("#txtLegajo").val(empleado.getLegajo());
-                    $("#txtNombre").val(empleado.getNombre());
-                    $("#txtApellido").val(empleado.getApellido());
-                    $("#txtEdad").val(empleado.getEdad());
-
-                    if(empleado.getHorario() == "Mañana")
-                        $("#selectHorario").val(1);
-                    else if(empleado.getHorario() == "Tarde")
-                        $("#selectHorario").val(2);
-                    else
-                        $("#selectHorario").val(3);
-                }
-                else
-                {
-                    listaNueva.push(empleado);
+                    indexAModificar = lista.indexOf(empleado)
+                    return empleado;
                 }
             }
+            return retorno;
+        },auxEmpleado);
 
-        });
+        if(empleadoAModificar instanceof Empleado)
+        {
+            if(empleadoAModificar.getLegajo() == e.target.id)
+            {
+                $("#txtLegajoModificar").val(empleadoAModificar.getLegajo());
+                $("#txtNombreModificar").val(empleadoAModificar.getNombre());
+                $("#txtApellidoModificar").val(empleadoAModificar.getApellido());
+                $("#txtEdadModificar").val(empleadoAModificar.getEdad());
+                
+                if(empleadoAModificar.getHorario() == "Mañana")
+                    $("#selectHorarioModificar").val(1);
+                else if(empleadoAModificar.getHorario() == "Tarde")
+                    $("#selectHorarioModificar").val(2);
+                else
+                    $("#selectHorarioModificar").val(3);
 
-        lista = listaNueva;
+                filtrosDisplayed = false;
+                $("#formFiltros").hide();
+                
+                formDisplayed = false;
+                $("#formulario").hide();
 
+                $("#formModificar").show();
+            }
+        }
+            
         CargarLista();
     }
 
     export function Borrar(e)
     {   
-        let listaNueva = [];
-        lista.forEach( (empleado) => 
-        {
+         lista = lista.filter(function(empleado){
             if (empleado instanceof Empleado)
-            {   
-                console.log(empleado.getLegajo() + " = " + e.target.id);
-                console.log(empleado.getLegajo() == e.target.id);
-                if(empleado.getLegajo() == e.target.id)
-                {
-
-                }
-                else
-                {
-                    listaNueva.push(empleado);
-                }
+            {
+                return empleado.getLegajo() != e.target.id;
             }
-
         });
-        lista = listaNueva;
+
         CargarLista();
     }
 

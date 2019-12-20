@@ -73,6 +73,57 @@
 
 
             </div>
+            <div id="formModificar" class="position-relative bg-dark text-white p-4 rounded border border-primary mx-auto">
+                <h3>Modificar</h3>
+
+                <div class="form-group row">
+
+                    <label for="txtNombre" class="col-lg-3 col-form-label">Nombre:</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control border-3 border-secondary" id="txtNombreModificar">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtApellido" class="col-lg-3 col-form-label">Apellido:</label>
+                    <div class="col-lg-9">
+                        <input type="text" class="form-control border-3 border-secondary" id="txtApellidoModificar">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtEdad" class="col-lg-3 col-form-label">Edad:</label>
+                    <div class="col-lg-9">
+                        <input type="number" class="form-control border-3 border-secondary" id="txtEdadModificar">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="txtLegajo" class="col-lg-3 col-form-label">Legajo:</label>
+                    <div class="col-lg-9">
+                        <input type="number" class="form-control border-3 border-secondary" id="txtLegajoModificar">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="selectHorario" class="col-lg-3 col-form-label">Horario:</label>
+                    <div class="col-lg-9">
+                        <select name="selectHorario" id="selectHorarioModificar"  class="form-control border-3 border-secondary">
+                            <option value=1>Mañana</option>
+                            <option value=2>Tarde</option>
+                            <option value=3>Noche</option>
+                        </select>
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                    <div class="offset-lg-3 col-lg-9">
+                        <button class="btn btn-default" id="btnModificar" type="btnSubmit">Modificar</button>
+                    </div>
+                    <div class="offset-lg-3 col-lg-9">
+                        <button class="btn btn-default" id="btnCancelar" type="btnSubmit">Cancelar</button>
+                    </div>
+                </div>
+
+
+            </div>
             <div id="formFiltros" class="position-relative bg-dark text-white p-4 rounded border border-primary mx-auto">
                 <h3>Filtros</h3>
 
